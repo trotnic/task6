@@ -36,6 +36,9 @@
     if(!_textStack) {
         _textStack = [UIStackView new];
         _textStack.axis = UILayoutConstraintAxisVertical;
+        _textStack.distribution = UIStackViewDistributionFillProportionally;
+        
+//        _textStack.spacing =
     }
     return _textStack;
 }

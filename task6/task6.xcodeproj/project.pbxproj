@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		2B3A09CF249D38D0008924CA /* InitialViewcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A09CE249D38D0008924CA /* InitialViewcontroller.m */; };
 		2B3A09D2249D5C1C008924CA /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A09D1249D5C1C008924CA /* MainTabBarController.m */; };
-		2B3A09D5249D5C88008924CA /* InfoTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A09D4249D5C88008924CA /* InfoTableController.m */; };
 		2B3A09D8249D62B0008924CA /* HomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A09D7249D62B0008924CA /* HomeController.m */; };
 		2B5D94A6249E207E00295B6B /* FiguresStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94A5249E207E00295B6B /* FiguresStackView.m */; };
 		2B5D94AA249E2E4F00295B6B /* ProfileStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94A9249E2E4F00295B6B /* ProfileStackView.m */; };
 		2B5D94AD249E659C00295B6B /* GalleryCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94AC249E659C00295B6B /* GalleryCollectionController.m */; };
 		2B5D94B0249E6AEC00295B6B /* GalleryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94AF249E6AEC00295B6B /* GalleryCell.m */; };
 		2B5D94B3249E74C800295B6B /* ModalImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94B2249E74C800295B6B /* ModalImageController.m */; };
+		2B5D94B9249E977F00295B6B /* InfoCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94B8249E977F00295B6B /* InfoCollectionController.m */; };
+		2B5D94C1249EA70400295B6B /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94C0249EA70400295B6B /* InfoCell.m */; };
 		2B74806B249C029C00E9CBBB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B74806A249C029C00E9CBBB /* AppDelegate.m */; };
 		2B74806E249C029C00E9CBBB /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B74806D249C029C00E9CBBB /* SceneDelegate.m */; };
 		2B748076249C029E00E9CBBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B748075249C029E00E9CBBB /* Assets.xcassets */; };
@@ -31,8 +32,6 @@
 		2B3A09CE249D38D0008924CA /* InitialViewcontroller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InitialViewcontroller.m; sourceTree = "<group>"; };
 		2B3A09D0249D5C1C008924CA /* MainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
 		2B3A09D1249D5C1C008924CA /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
-		2B3A09D3249D5C88008924CA /* InfoTableController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoTableController.h; sourceTree = "<group>"; };
-		2B3A09D4249D5C88008924CA /* InfoTableController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InfoTableController.m; sourceTree = "<group>"; };
 		2B3A09D6249D62B0008924CA /* HomeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeController.h; sourceTree = "<group>"; };
 		2B3A09D7249D62B0008924CA /* HomeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeController.m; sourceTree = "<group>"; };
 		2B5D94A4249E207E00295B6B /* FiguresStackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FiguresStackView.h; sourceTree = "<group>"; };
@@ -45,6 +44,10 @@
 		2B5D94AF249E6AEC00295B6B /* GalleryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleryCell.m; sourceTree = "<group>"; };
 		2B5D94B1249E74C800295B6B /* ModalImageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModalImageController.h; sourceTree = "<group>"; };
 		2B5D94B2249E74C800295B6B /* ModalImageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModalImageController.m; sourceTree = "<group>"; };
+		2B5D94B7249E977F00295B6B /* InfoCollectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoCollectionController.h; sourceTree = "<group>"; };
+		2B5D94B8249E977F00295B6B /* InfoCollectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InfoCollectionController.m; sourceTree = "<group>"; };
+		2B5D94BF249EA70400295B6B /* InfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InfoCell.h; sourceTree = "<group>"; };
+		2B5D94C0249EA70400295B6B /* InfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InfoCell.m; sourceTree = "<group>"; };
 		2B748066249C029C00E9CBBB /* task6.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = task6.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B748069249C029C00E9CBBB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2B74806A249C029C00E9CBBB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -80,14 +83,14 @@
 				2B3A09CE249D38D0008924CA /* InitialViewcontroller.m */,
 				2B3A09D0249D5C1C008924CA /* MainTabBarController.h */,
 				2B3A09D1249D5C1C008924CA /* MainTabBarController.m */,
-				2B3A09D3249D5C88008924CA /* InfoTableController.h */,
-				2B3A09D4249D5C88008924CA /* InfoTableController.m */,
 				2B3A09D6249D62B0008924CA /* HomeController.h */,
 				2B3A09D7249D62B0008924CA /* HomeController.m */,
 				2B5D94AB249E659C00295B6B /* GalleryCollectionController.h */,
 				2B5D94AC249E659C00295B6B /* GalleryCollectionController.m */,
 				2B5D94B1249E74C800295B6B /* ModalImageController.h */,
 				2B5D94B2249E74C800295B6B /* ModalImageController.m */,
+				2B5D94B7249E977F00295B6B /* InfoCollectionController.h */,
+				2B5D94B8249E977F00295B6B /* InfoCollectionController.m */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -112,6 +115,8 @@
 				2B5D94A9249E2E4F00295B6B /* ProfileStackView.m */,
 				2B5D94AE249E6AEC00295B6B /* GalleryCell.h */,
 				2B5D94AF249E6AEC00295B6B /* GalleryCell.m */,
+				2B5D94BF249EA70400295B6B /* InfoCell.h */,
+				2B5D94C0249EA70400295B6B /* InfoCell.m */,
 			);
 			path = "Utility Views";
 			sourceTree = "<group>";
@@ -243,13 +248,14 @@
 				2B748086249C158200E9CBBB /* SquareView.m in Sources */,
 				2B3A09CF249D38D0008924CA /* InitialViewcontroller.m in Sources */,
 				2B5D94B3249E74C800295B6B /* ModalImageController.m in Sources */,
+				2B5D94C1249EA70400295B6B /* InfoCell.m in Sources */,
 				2B748089249C177600E9CBBB /* CircleView.m in Sources */,
 				2B74806B249C029C00E9CBBB /* AppDelegate.m in Sources */,
 				2B5D94A6249E207E00295B6B /* FiguresStackView.m in Sources */,
 				2B5D94B0249E6AEC00295B6B /* GalleryCell.m in Sources */,
 				2B74807C249C029E00E9CBBB /* main.m in Sources */,
 				2B3A09D8249D62B0008924CA /* HomeController.m in Sources */,
-				2B3A09D5249D5C88008924CA /* InfoTableController.m in Sources */,
+				2B5D94B9249E977F00295B6B /* InfoCollectionController.m in Sources */,
 				2B74806E249C029C00E9CBBB /* SceneDelegate.m in Sources */,
 				2B5D94AA249E2E4F00295B6B /* ProfileStackView.m in Sources */,
 			);

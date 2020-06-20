@@ -7,15 +7,15 @@
 //
 
 #import "MainTabBarController.h"
-#import "InfoTableController.h"
 #import "HomeController.h"
 #import "GalleryCollectionController.h"
+#import "InfoCollectionController.h"
 
 @interface MainTabBarController ()
 
-@property (nonatomic, strong) UINavigationController *infoController;
 @property (nonatomic, strong) UINavigationController *homeController;
 @property (nonatomic, strong) UINavigationController *galleryController;
+@property (nonatomic, strong) UINavigationController *infoController;
 @end
 
 @implementation MainTabBarController
@@ -30,16 +30,6 @@
     return _galleryController;
 }
 
-- (UINavigationController *)infoController {
-    if(!_infoController) {
-        _infoController = [[UINavigationController alloc] initWithRootViewController:[InfoTableController new]];
-//        _infoController.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[UIImage imageNamed:@"info_unselected"] tag:0];
-//        _infoController.navigationItem.title = @"Info";
-        
-    }
-    return _infoController;
-}
-
 - (UINavigationController *)homeController {
     if(!_homeController) {
         _homeController = [[UINavigationController alloc] initWithRootViewController: [HomeController new]];
@@ -48,24 +38,27 @@
     return _homeController;
 }
 
+- (UINavigationController *)infoController {
+    if(!_infoController) {
+        UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        _infoController = [[UINavigationController alloc] initWithRootViewController:[[InfoCollectionController alloc] initWithCollectionViewLayout:layout]];
+        _infoController.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:@"info_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] tag:0];
+//        _infoController.tableView.tintColor = [UIColor colorNamed:@"Black"];
+        _infoController.tabBarItem.selectedImage = [[UIImage imageNamed:@"info_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    }
+    return _infoController;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    
-//    NSArray *urls = [NSFileManager.defaultManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
-//    NSLog(@"%@", [NSFileManager.defaultManager contentsOfDirectoryAtPath:NSDocumentDirectory error:nil]);
-    
-//    NSLog(@"%@", urls);
-//    self.homeController = [HomeController new];
-    
     
     
     
     
     
     self.viewControllers = @[self.infoController, self.galleryController, self.homeController];
-    self.selectedIndex = 1;
+    self.selectedIndex = 0;
 }
 
 @end
