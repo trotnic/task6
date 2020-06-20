@@ -9,15 +9,26 @@
 #import "MainTabBarController.h"
 #import "InfoTableController.h"
 #import "HomeController.h"
-//#import <Media
+#import "GalleryCollectionController.h"
 
 @interface MainTabBarController ()
 
 @property (nonatomic, strong) UINavigationController *infoController;
 @property (nonatomic, strong) UINavigationController *homeController;
+@property (nonatomic, strong) UINavigationController *galleryController;
 @end
 
 @implementation MainTabBarController
+
+- (UINavigationController *)galleryController {
+    if(!_galleryController) {
+        UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        _galleryController = [[UINavigationController alloc] initWithRootViewController:[[GalleryCollectionController alloc] initWithCollectionViewLayout:layout]];
+        _galleryController.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:@"gallery_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:@"gallery_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    }
+    return _galleryController;
+}
 
 - (UINavigationController *)infoController {
     if(!_infoController) {
@@ -32,6 +43,7 @@
 - (UINavigationController *)homeController {
     if(!_homeController) {
         _homeController = [[UINavigationController alloc] initWithRootViewController: [HomeController new]];
+        _homeController.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:@"home_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:@"home_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     }
     return _homeController;
 }
@@ -47,14 +59,12 @@
 //    NSLog(@"%@", urls);
 //    self.homeController = [HomeController new];
     
-    self.homeController.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[[UIImage imageNamed:@"home_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] tag:0];
-    self.homeController.tabBarItem.selectedImage = [[UIImage imageNamed:@"home_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-//    self.navigationItem.navigationBar.backgroundColor = [UIColor colorNamed:@"Yellow"];
     
     
     
-    self.viewControllers = @[self.infoController, self.homeController];
+    
+    
+    self.viewControllers = @[self.infoController, self.galleryController, self.homeController];
     self.selectedIndex = 1;
 }
 

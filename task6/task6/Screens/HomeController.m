@@ -10,6 +10,7 @@
 #import "ProfileStackView.h"
 #import "FiguresStackView.h"
 
+
 @interface HomeController ()
 
 @property (nonatomic, strong) UIStackView *verticalStack;
@@ -111,6 +112,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     
     self.navigationItem.title = @"RSSchool Task 6";
     self.navigationController.navigationBar.translucent = NO;
