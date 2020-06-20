@@ -7,63 +7,29 @@
 //
 
 #import "InitialViewcontroller.h"
-#import "SquareView.h"
-#import "CircleView.h"
-#import "TriangleView.h"
+#import "FiguresStackView.h"
 
 @interface InitialViewcontroller ()
 
-@property (nonatomic, strong) SquareView *squareView;
-@property (nonatomic, strong) TriangleView *triangleView;
-@property (nonatomic, strong) CircleView *circleView;
-@property (nonatomic, strong) UIStackView *pipeStack;
+@property (nonatomic, strong) FiguresStackView *pipeStack;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *startButton;
+@property (nonatomic, strong) UIStackView *mainPipe;
 
 @end
 
 @implementation InitialViewcontroller
 
-- (SquareView *)squareView {
-    if(!_squareView) {
-        _squareView = [SquareView new];
-        _squareView.translatesAutoresizingMaskIntoConstraints = NO;
-        [_squareView.heightAnchor constraintEqualToConstant:70].active = YES;
-        [_squareView.widthAnchor constraintEqualToConstant:70].active = YES;
-    }
-    return _squareView;
-}
+#pragma mark Getters
 
-- (TriangleView *)triangleView {
-    if(!_triangleView) {
-        _triangleView = [TriangleView new];
-        _triangleView.translatesAutoresizingMaskIntoConstraints = NO;
-        _triangleView.backgroundColor = UIColor.clearColor;
-        [_triangleView.heightAnchor constraintEqualToConstant:70].active = YES;
-        [_triangleView.widthAnchor constraintEqualToConstant:70].active = YES;
-    }
-    return _triangleView;
-}
 
-- (CircleView *)circleView {
-    if(!_circleView) {
-        _circleView = [CircleView new];
-        _circleView.translatesAutoresizingMaskIntoConstraints = NO;
-        _circleView.backgroundColor = UIColor.clearColor;
-        [_circleView.heightAnchor constraintEqualToConstant:70].active = YES;
-        [_circleView.widthAnchor constraintEqualToConstant:70].active = YES;
-    }
-    return _circleView;
-}
-
-- (UIStackView *)pipeStack {
+- (FiguresStackView *)pipeStack {
     if(!_pipeStack) {
-        _pipeStack = [UIStackView new];
+        _pipeStack = [FiguresStackView new];
         _pipeStack.translatesAutoresizingMaskIntoConstraints = NO;
+        [_pipeStack.heightAnchor constraintEqualToConstant:70].active = YES;
         _pipeStack.axis = UILayoutConstraintAxisHorizontal;
         _pipeStack.distribution = UIStackViewDistributionEqualSpacing;
-//        _pipeStack.alignment = UIStackViewAlignmentCenter;
-//        _pipeStack.spacing = 2;
     }
     return _pipeStack;
 }
@@ -73,6 +39,7 @@
         _titleLabel = [UILabel new];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [_titleLabel.heightAnchor constraintEqualToConstant:50].active = YES;
         _titleLabel.font = [UIFont systemFontOfSize:24 weight:UIFontWeightMedium];
     }
     return _titleLabel;
@@ -92,6 +59,16 @@
     return _startButton;
 }
 
+- (UIStackView *)mainPipe {
+    if(!_mainPipe) {
+        _mainPipe = [UIStackView new];
+        _mainPipe.translatesAutoresizingMaskIntoConstraints = NO;
+        _mainPipe.axis = UILayoutConstraintAxisVertical;
+        _mainPipe.distribution = UIStackViewDistributionEqualCentering;
+    }
+    return _mainPipe;
+}
+
 #pragma mark Controller Lifecycle
 
 - (void)viewDidLoad {
@@ -108,58 +85,31 @@
     [self.startButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     [self.startButton addTarget:self action:@selector(buttonPressend:) forControlEvents:UIControlEventTouchUpInside];
     
+    [self.view addSubview:self.mainPipe];
+    
     [NSLayoutConstraint activateConstraints:@[
-        [self.pipeStack.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:30],
-        [self.pipeStack.topAnchor constraintEqualToAnchor:self.titleLabel.bottomAnchor constant:80],
-        [self.pipeStack.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-30],
-        
-        [self.titleLabel.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor],
-        [self.titleLabel.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor],
-        [self.titleLabel.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:80],
-        
-        [self.startButton.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:30],
-        [self.startButton.topAnchor constraintEqualToAnchor:self.pipeStack.bottomAnchor constant:130],
-        [self.startButton.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-30],
+        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:UIScreen.mainScreen.bounds.size.width / 12],
+        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:UIScreen.mainScreen.bounds.size.height / 7],
+        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-UIScreen.mainScreen.bounds.size.width / 12],
+        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:-UIScreen.mainScreen.bounds.size.height / 5]
     ]];
     
-    [self.pipeStack addArrangedSubview:self.circleView];
-    [self.pipeStack addArrangedSubview:self.squareView];
-    [self.pipeStack addArrangedSubview:self.triangleView];
-    
+    [self.mainPipe addArrangedSubview:self.titleLabel];
+    [self.mainPipe addArrangedSubview:self.pipeStack];
+    [self.mainPipe addArrangedSubview:self.startButton];
     
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    [self.pipeStack runAnimation];
     
-    CABasicAnimation *triangleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-    triangleAnimation.fromValue = @(0.0);
-    triangleAnimation.toValue = @(M_PI*2);
-    triangleAnimation.duration = 5.0f;
-    triangleAnimation.repeatCount = INFINITY;
-    [self.triangleView.layer addAnimation:triangleAnimation forKey:nil];
-    
-    CABasicAnimation *circleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    circleAnimation.fromValue = @(0.9);
-    circleAnimation.toValue = @(1.1);
-    circleAnimation.duration = 0.5f;
-    circleAnimation.autoreverses = YES;
-    circleAnimation.repeatCount = INFINITY;
-    [self.circleView.layer addAnimation:circleAnimation forKey:nil];
-    
-    
-    CABasicAnimation *squareAnimation = [CABasicAnimation animationWithKeyPath:@"transform.translation.y"];
-    squareAnimation.fromValue = @(-self.squareView.frame.size.width*0.1);
-    squareAnimation.toValue = @(self.squareView.frame.size.width*0.1);
-    squareAnimation.duration = 1.0f;
-    squareAnimation.autoreverses = YES;
-    squareAnimation.repeatCount = INFINITY;
-    [self.squareView.layer addAnimation:squareAnimation forKey:nil];
 }
 
 - (void)buttonPressend:(UIButton *)sender {
-    [sender setBackgroundColor: [UIColor colorNamed:@"YellowHighlighted"]];
+//    [self.pipeStack stopAnimation];
+    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"mainScreenRequiredNotification" object:nil]];
 }
 
 @end
