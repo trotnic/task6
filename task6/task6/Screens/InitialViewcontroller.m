@@ -8,6 +8,7 @@
 
 #import "InitialViewcontroller.h"
 #import "FiguresStackView.h"
+#import "UIColor+HEX.h"
 
 @interface InitialViewcontroller ()
 
@@ -52,7 +53,7 @@
         
         [_startButton.heightAnchor constraintEqualToConstant:55].active = YES;
         _startButton.layer.cornerRadius = 30;
-        _startButton.backgroundColor = [UIColor colorNamed:@"Yellow"];
+        _startButton.backgroundColor = [UIColor rsschoolYellowColor];
         _startButton.titleLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightMedium];
         
     }

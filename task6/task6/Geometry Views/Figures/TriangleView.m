@@ -7,6 +7,7 @@
 //
 
 #import "TriangleView.h"
+#import "UIColor+HEX.h"
 
 @implementation TriangleView
 
@@ -23,7 +24,7 @@
     [trianglePath addLineToPoint:CGPointMake(0, rect.size.height)];
     [trianglePath addLineToPoint:CGPointMake(rect.size.width, rect.size.height)];
     [trianglePath closePath];
-    UIColor *color = [UIColor colorNamed:@"Green"];
+    UIColor *color = [UIColor rsschoolGreenColor];
     [color setFill];
     
     [trianglePath fill];

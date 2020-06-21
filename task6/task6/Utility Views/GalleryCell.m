@@ -7,6 +7,7 @@
 //
 
 #import "GalleryCell.h"
+#import "UIImageView+AssetFetch.h"
 
 
 @interface GalleryCell ()
@@ -60,12 +61,8 @@
     
 }
 
-- (void)fetchImageWithAsset:(PHAsset *)asset contentMode:(PHImageContentMode)contentMode targetSize:(CGSize)targetSize {
-    PHImageRequestOptions *options = [PHImageRequestOptions new];
-    options.version = PHImageRequestOptionsVersionOriginal;
-    [PHImageManager.defaultManager requestImageForAsset:asset targetSize:targetSize contentMode:contentMode options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        self.imageView.image = result;
-    }];
+- (void)loadAsset:(PHAsset *)asset {
+    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:self.bounds.size];
 }
 
 - (void)setImage:(UIImage *)image {

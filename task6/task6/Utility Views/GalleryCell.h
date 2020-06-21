@@ -16,7 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) UIImage *image;
 
 - (void)setImage:(UIImage *)image;
-- (void)fetchImageWithAsset:(PHAsset *)asset contentMode:(PHImageContentMode)contentMode targetSize:(CGSize)targetSize;
+- (void)loadAsset:(PHAsset *)asset;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,6 +7,7 @@
 //
 
 #import "ModalImageController.h"
+#import "UIColor+HEX.h"
 
 @interface ModalImageController ()
 
@@ -30,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.imageView];
-    self.view.backgroundColor = [UIColor colorNamed:@"White"];
+    self.view.backgroundColor = [UIColor rsschoolWhiteColor];
     [NSLayoutConstraint activateConstraints:@[
         [self.imageView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
         [self.imageView.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],

@@ -9,6 +9,7 @@
 #import "HomeController.h"
 #import "ProfileStackView.h"
 #import "FiguresStackView.h"
+#import "UIColor+HEX.h"
 
 
 @interface HomeController ()
@@ -30,7 +31,7 @@
     if(!_dividerView1) {
         _dividerView1 = [UIView new];
         [_dividerView1.heightAnchor constraintEqualToConstant:2.0f].active = YES;
-        _dividerView1.backgroundColor = [[UIColor colorNamed:@"Gray"] colorWithAlphaComponent:0.5f];
+        _dividerView1.backgroundColor = [[UIColor rsschoolGrayColor] colorWithAlphaComponent:0.5f];
     }
     return _dividerView1;
 }
@@ -39,7 +40,7 @@
     if(!_dividerView2) {
         _dividerView2 = [UIView new];
         [_dividerView2.heightAnchor constraintEqualToConstant:2.0f].active = YES;
-        _dividerView2.backgroundColor = [[UIColor colorNamed:@"Gray"] colorWithAlphaComponent:0.5f];
+        _dividerView2.backgroundColor = [[UIColor rsschoolGrayColor] colorWithAlphaComponent:0.5f];
     }
     return _dividerView2;
 }
@@ -60,8 +61,8 @@
         [_cvButton.heightAnchor constraintEqualToConstant:55.0].active = YES;
         _cvButton.layer.cornerRadius = 30.0f;
         _cvButton.titleLabel.font = [UIFont systemFontOfSize:20.0f weight:UIFontWeightBold];
-        _cvButton.backgroundColor = [UIColor colorNamed:@"Yellow"];
-        [_cvButton setTitleColor:[UIColor colorNamed:@"Black"] forState:UIControlStateNormal];
+        _cvButton.backgroundColor = [UIColor rsschoolYellowColor];
+        [_cvButton setTitleColor:[UIColor rsschoolBlackColor] forState:UIControlStateNormal];
         
         [_cvButton addTarget:self action:@selector(goToCV) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -75,8 +76,8 @@
         [_resumeButton.heightAnchor constraintEqualToConstant:55.0].active = YES;
         _resumeButton.layer.cornerRadius = 30.0f;
         _resumeButton.titleLabel.font = [UIFont systemFontOfSize:20.0f weight:UIFontWeightBold];
-        _resumeButton.backgroundColor = [UIColor colorNamed:@"Red"];
-        [_resumeButton setTitleColor:[UIColor colorNamed:@"White"] forState:UIControlStateNormal];
+        _resumeButton.backgroundColor = [UIColor rsschoolRedColor];
+        [_resumeButton setTitleColor:[UIColor rsschoolWhiteColor] forState:UIControlStateNormal];
         
         [_resumeButton addTarget:self action:@selector(backToStart) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -116,9 +117,9 @@
     
     self.navigationItem.title = @"RSSchool Task 6";
     self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor colorNamed:@"Yellow"];
+    self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
     
-    self.view.backgroundColor = [UIColor colorNamed:@"White"];
+    self.view.backgroundColor = [UIColor rsschoolWhiteColor];
     
     [self.view addSubview:self.verticalStack];
     

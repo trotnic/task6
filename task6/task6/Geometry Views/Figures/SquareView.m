@@ -7,6 +7,7 @@
 //
 
 #import "SquareView.h"
+#import "UIColor+HEX.h"
 
 @implementation SquareView
 
@@ -17,7 +18,7 @@
     
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
     
-    UIColor *color = [UIColor colorNamed:@"Blue"];
+    UIColor *color = [UIColor rsschoolBlueColor];
     [color setFill];
     [path fill];
     

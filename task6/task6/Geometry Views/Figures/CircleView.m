@@ -7,6 +7,7 @@
 //
 
 #import "CircleView.h"
+#import "UIColor+HEX.h"
 
 @implementation CircleView
 
@@ -16,7 +17,7 @@
 - (void)drawRect:(CGRect)rect {
     
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:rect.size.width / 2];
-    UIColor *color = [UIColor colorNamed:@"Red"];
+    UIColor *color = [UIColor rsschoolRedColor];
     [color setFill];
     [path fill];
     

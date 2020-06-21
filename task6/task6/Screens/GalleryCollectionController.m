@@ -10,6 +10,7 @@
 #import "GalleryCell.h"
 #import <Photos/Photos.h>
 #import "ModalImageController.h"
+#import "UIColor+HEX.h"
 
 
 @interface GalleryCollectionController ()
@@ -26,10 +27,10 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.collectionView.backgroundColor = [UIColor colorNamed:@"White"];
+    self.collectionView.backgroundColor = [UIColor rsschoolWhiteColor];
     self.navigationItem.title = @"Gallery";
     self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor colorNamed:@"Yellow"];
+    self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
     
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
         switch (status) {
@@ -48,18 +49,7 @@ static NSString * const reuseIdentifier = @"Cell";
         }
     }];
     
-    
-//    self.imageManager = [PHImageManager new];
-//    NSLog(@"%@", self.fetchResult);
-    //    NSLog(@"%@", self.fetchResult);
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Register cell classes
     [self.collectionView registerClass:[GalleryCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
-    // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -68,23 +58,12 @@ static NSString * const reuseIdentifier = @"Cell";
     NSLog(@"%lu", (unsigned long)self.fetchResult.count);
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 
     return 1;
 }
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
@@ -93,54 +72,11 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GalleryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-//    cell.backgroundColor = UIColor.redColor;
-    
-    
-    [cell fetchImageWithAsset:self.fetchResult[indexPath.item] contentMode:PHImageContentModeAspectFill targetSize:cell.frame.size];
-//    [self.imageManager requestImageForAsset:self.fetchResult[indexPath.item] targetSize:cell.bounds.size contentMode:PHImageContentModeAspectFit options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-//        NSLog(@"%@", result);
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [cell setImage:result];
-//            cell.backgroundColor = UIColor.redColor;
-//        });
-//
-//    }];
-    
-    // Configure the cell
-    
+    [cell loadAsset:self.fetchResult[indexPath.item]];
     return cell;
 }
 
 #pragma mark <UICollectionViewDelegate>
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 4;
@@ -160,11 +96,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     UIImage *image = ((GalleryCell *)[collectionView cellForItemAtIndexPath:indexPath]).image;
-    [self presentViewController:[[ModalImageController alloc] initWithImage:image] animated:YES completion:^{
-        
-    }];
-    
-    
+    [self presentViewController:[[ModalImageController alloc] initWithImage:image] animated:YES completion:^{}];
 }
 
 @end

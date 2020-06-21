@@ -7,7 +7,7 @@
 //
 
 #import "InfoCell.h"
-
+#import "UIImageView+AssetFetch.h"
 
 @interface InfoCell ()
 
@@ -116,12 +116,10 @@
 
 - (void)configureWithAsset:(PHAsset *)asset {
     
+    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFit targetSize:self.bounds.size];
+    
     PHAssetResource *resource = ((PHAssetResource *)[PHAssetResource assetResourcesForAsset:asset].firstObject);
     self.nameLabel.text = resource.originalFilename;
-    
-    [PHImageManager.defaultManager requestImageForAsset:asset targetSize:CGSizeMake(self.bounds.size.width, self.bounds.size.height) contentMode:PHImageContentModeAspectFit options:0 resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        self.imageView.image = result;
-    }];
     
     self.propertyLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long)asset.pixelWidth, (unsigned long)asset.pixelHeight];
     switch (asset.mediaType) {
@@ -135,7 +133,6 @@
         default:
             break;
     }
-    
 }
 
 
