@@ -116,21 +116,32 @@
 
 - (void)configureWithAsset:(PHAsset *)asset {
     
-    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFit targetSize:self.bounds.size];
+    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:self.bounds.size];
+//    self.imageView.image = [[UIImage imageNamed:@"other"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    
+    
     
     PHAssetResource *resource = ((PHAssetResource *)[PHAssetResource assetResourcesForAsset:asset].firstObject);
     self.nameLabel.text = resource.originalFilename;
     
-    self.propertyLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long)asset.pixelWidth, (unsigned long)asset.pixelHeight];
+    NSTimeInterval time = asset.duration;
+    NSString *string = [NSString stringWithFormat:@"%02li:%02li:%02li",
+    lround(floor(time / 3600.)) % 100,
+    lround(floor(time / 60.)) % 60,
+    lround(floor(time)) % 60];
+    
+    self.propertyLabel.text = [NSString stringWithFormat:@"%lux%lu %@", (unsigned long)asset.pixelWidth, (unsigned long)asset.pixelHeight, string];
     switch (asset.mediaType) {
         case PHAssetMediaTypeImage:
             self.typeImageView.image = [[UIImage imageNamed:@"image"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             break;
-            
         case PHAssetMediaTypeVideo:
             self.typeImageView.image = [[UIImage imageNamed:@"video"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             break;
+        case PHAssetMediaTypeAudio:
+            self.typeImageView.image = [[UIImage imageNamed:@"audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         default:
+            self.typeImageView.image = [[UIImage imageNamed:@"other"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             break;
     }
 }

@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UIButton *startButton;
 @property (nonatomic, strong) UIStackView *mainPipe;
 
+@property (nonatomic, assign) CGFloat insetSize;
+
 @end
 
 @implementation InitialViewcontroller
@@ -70,6 +72,13 @@
     return _mainPipe;
 }
 
+- (CGFloat)insetSize {
+    if(!_insetSize) {
+        _insetSize = [[NSUserDefaults.standardUserDefaults valueForKey:@"sideInset"] floatValue];
+    }
+    return _insetSize;
+}
+
 #pragma mark Controller Lifecycle
 
 - (void)viewDidLoad {
@@ -89,10 +98,10 @@
     [self.view addSubview:self.mainPipe];
     
     [NSLayoutConstraint activateConstraints:@[
-        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:UIScreen.mainScreen.bounds.size.width / 12],
-        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:UIScreen.mainScreen.bounds.size.height / 7],
-        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-UIScreen.mainScreen.bounds.size.width / 12],
-        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:-UIScreen.mainScreen.bounds.size.height / 5]
+        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:self.insetSize],
+        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:4*self.insetSize],
+        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-self.insetSize],
+        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:-5*self.insetSize]
     ]];
     
     [self.mainPipe addArrangedSubview:self.titleLabel];
@@ -105,11 +114,9 @@
     [super viewDidAppear:animated];
     
     [self.pipeStack runAnimation];
-    
 }
 
 - (void)buttonPressend:(UIButton *)sender {
-//    [self.pipeStack stopAnimation];
     [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"mainScreenRequiredNotification" object:nil]];
 }
 

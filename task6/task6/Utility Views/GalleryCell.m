@@ -62,7 +62,7 @@
 }
 
 - (void)loadAsset:(PHAsset *)asset {
-    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:self.bounds.size];
+    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:CGSizeZero];
 }
 
 - (void)setImage:(UIImage *)image {

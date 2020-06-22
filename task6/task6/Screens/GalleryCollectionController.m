@@ -95,8 +95,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    UIImage *image = ((GalleryCell *)[collectionView cellForItemAtIndexPath:indexPath]).image;
-    [self presentViewController:[[ModalImageController alloc] initWithImage:image] animated:YES completion:^{}];
+    [self presentViewController:[[ModalImageController alloc] initWithAsset:self.fetchResult[indexPath.item]] animated:YES completion:^{}];
 }
 
 @end

@@ -18,33 +18,38 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    [self setupUserDefaults];
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupInitialScreen) name:@"initialScreenRequiredNotification" object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupMainScreen) name:@"mainScreenRequiredNotification" object:nil];
-    self.window = [[UIWindow alloc] initWithFrame: UIScreen.mainScreen.bounds];
+    
+    self.window = [UIWindow new];
     self.window.rootViewController = [InitialViewcontroller new];
     [self.window makeKeyAndVisible];
     
     return YES;
 }
 
-- (void)setupInitialScreen {
-    NSLog(@"lolkek");
-    [UIView animateWithDuration:0.2f animations:^{
-//        [self.window.rootViewController dismissViewControllerAnimated:YES completion:^{
-            self.window.rootViewController = [InitialViewcontroller new];
-//        }];
+#pragma mark - UserDefaults setup
+
+- (void)setupUserDefaults {
+    [NSUserDefaults.standardUserDefaults setValuesForKeysWithDictionary:@{
+        @"sideInset": @(UIScreen.mainScreen.bounds.size.width / 15)
     }];
-    
+}
+
+#pragma mark - Root VC switching
+
+- (void)setupInitialScreen {
+    [UIView animateWithDuration:0.2f animations:^{
+        self.window.rootViewController = [InitialViewcontroller new];
+    }];
 }
 
 - (void)setupMainScreen {
-    NSLog(@"cheburek");
     [UIView animateWithDuration:0.2f animations:^{
-//        [self.window.rootViewController dismissViewControllerAnimated:YES completion:^{
-            self.window.rootViewController = [MainTabBarController new];
-//        }];
+        self.window.rootViewController = [MainTabBarController new];
     }];
 }
 

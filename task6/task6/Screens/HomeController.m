@@ -23,6 +23,10 @@
 @property (nonatomic, strong) UIView *dividerView1;
 @property (nonatomic, strong) UIView *dividerView2;
 
+@property (nonatomic, strong) UIScrollView *scrollView;
+
+@property (nonatomic, assign) CGFloat insetSize;
+
 @end
 
 @implementation HomeController
@@ -49,7 +53,7 @@
     if(!_buttonsStack) {
         _buttonsStack = [UIStackView new];
         _buttonsStack.axis = UILayoutConstraintAxisVertical;
-        _buttonsStack.spacing = 20.0f;
+        _buttonsStack.spacing = UIScreen.mainScreen.bounds.size.width / 15;
     }
     return _buttonsStack;
 }
@@ -89,7 +93,7 @@
         _verticalStack = [UIStackView new];
         _verticalStack.translatesAutoresizingMaskIntoConstraints = NO;
         _verticalStack.axis = UILayoutConstraintAxisVertical;
-        _verticalStack.distribution = UIStackViewDistributionEqualCentering;
+        _verticalStack.spacing = 2* [[NSUserDefaults.standardUserDefaults valueForKey:@"sideInset"] floatValue];
     }
     return _verticalStack;
 }
@@ -97,6 +101,7 @@
 - (ProfileStackView *)profileStackView {
     if(!_profileStackView) {
         _profileStackView = [ProfileStackView new];
+
     }
     return _profileStackView;
 }
@@ -107,6 +112,22 @@
         
     }
     return _figuresStackView;
+}
+
+- (UIScrollView *)scrollView {
+    if(!_scrollView) {
+        _scrollView = [UIScrollView new];
+        _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
+    }
+    return _scrollView;
+}
+
+- (CGFloat)insetSize {
+    if(!_insetSize) {
+        _insetSize = [[NSUserDefaults.standardUserDefaults valueForKey:@"sideInset"] floatValue];
+    }
+    return _insetSize;
 }
 
 #pragma mark Lifecycle
@@ -121,13 +142,20 @@
     
     self.view.backgroundColor = [UIColor rsschoolWhiteColor];
     
-    [self.view addSubview:self.verticalStack];
+    [self.view addSubview:self.scrollView];
+    [self.scrollView addSubview:self.verticalStack];
+    self.scrollView.contentSize = self.verticalStack.bounds.size;
     
     [NSLayoutConstraint activateConstraints:@[
-        [self.verticalStack.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:UIScreen.mainScreen.bounds.size.width / 12],
-        [self.verticalStack.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:UIScreen.mainScreen.bounds.size.width / 12],
-        [self.verticalStack.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-UIScreen.mainScreen.bounds.size.width / 12],
-        [self.verticalStack.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:-UIScreen.mainScreen.bounds.size.width / 12]
+        [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.scrollView.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],
+        [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor],
+        
+        [self.verticalStack.leadingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.leadingAnchor constant:self.insetSize],
+        [self.verticalStack.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor constant:self.insetSize],
+        [self.verticalStack.trailingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.trailingAnchor constant:-self.insetSize],
+        [self.verticalStack.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-self.insetSize],
     ]];
     
     [self.verticalStack addArrangedSubview:self.profileStackView];
@@ -139,7 +167,6 @@
     [self.buttonsStack addArrangedSubview:self.resumeButton];
     
     [self.verticalStack addArrangedSubview:self.buttonsStack];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {

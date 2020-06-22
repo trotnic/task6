@@ -58,7 +58,7 @@
     
     
     self.viewControllers = @[self.infoController, self.galleryController, self.homeController];
-    self.selectedIndex = 0;
+    self.selectedIndex = 2;
 }
 
 @end

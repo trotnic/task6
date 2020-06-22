@@ -36,9 +36,9 @@
     if(!_textStack) {
         _textStack = [UIStackView new];
         _textStack.axis = UILayoutConstraintAxisVertical;
-        _textStack.distribution = UIStackViewDistributionFillProportionally;
+        _textStack.distribution = UIStackViewDistributionEqualSpacing;
         
-//        _textStack.spacing =
+//        _textStack.spacing = [[NSUserDefaults.standardUserDefaults valueForKey:@"sideInset"] floatValue] / 2;
     }
     return _textStack;
 }
@@ -86,7 +86,7 @@
     
     self.axis = UILayoutConstraintAxisHorizontal;
     self.spacing = self.profileImageView.image.size.width / 3;
-    
+//    [self.heightAnchor constraintEqualToConstant:self.profileImageView.image.size.width].active = YES;
     [self addArrangedSubview:self.profileImageView];
     [self addArrangedSubview:self.textStack];
     
