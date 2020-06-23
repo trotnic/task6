@@ -17,6 +17,8 @@
 @property (nonatomic, strong) UIStackView *subInfoStack;
 @property (nonatomic, strong) UIImageView *typeImageView;
 @property (nonatomic, strong) UILabel *propertyLabel;
+@property (nonatomic, strong) PHAsset *asset;
+ 
 
 @end
 
@@ -35,8 +37,11 @@
     if(!_imageView) {
         _imageView = [UIImageView new];
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.clipsToBounds = YES;
         [_imageView.widthAnchor constraintEqualToConstant:self.bounds.size.width / 5].active = YES;
         [_imageView.heightAnchor constraintEqualToConstant:self.bounds.size.width / 5].active = YES;
+        
     }
     return _imageView;
 }
@@ -44,8 +49,8 @@
 - (UILabel *)nameLabel {
     if(!_nameLabel) {
         _nameLabel = [UILabel new];
-        _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _nameLabel.numberOfLines = 0;
+//        _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+//        _nameLabel.numberOfLines = 0;
         _nameLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
     }
     return _nameLabel;
@@ -55,7 +60,7 @@
     if(!_descriptionStack) {
         _descriptionStack = [UIStackView new];
         _descriptionStack.translatesAutoresizingMaskIntoConstraints = NO;
-        _descriptionStack.distribution = UIStackViewDistributionEqualCentering;
+        _descriptionStack.distribution = UIStackViewDistributionFillEqually;
         _descriptionStack.axis = UILayoutConstraintAxisVertical;
     }
     return _descriptionStack;
@@ -115,35 +120,45 @@
 }
 
 - (void)configureWithAsset:(PHAsset *)asset {
-    
-    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:self.bounds.size];
-//    self.imageView.image = [[UIImage imageNamed:@"other"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-    
+    self.asset = asset;
     
     
     PHAssetResource *resource = ((PHAssetResource *)[PHAssetResource assetResourcesForAsset:asset].firstObject);
     self.nameLabel.text = resource.originalFilename;
     
-    NSTimeInterval time = asset.duration;
-    NSString *string = [NSString stringWithFormat:@"%02li:%02li:%02li",
-    lround(floor(time / 3600.)) % 100,
-    lround(floor(time / 60.)) % 60,
-    lround(floor(time)) % 60];
-    
-    self.propertyLabel.text = [NSString stringWithFormat:@"%lux%lu %@", (unsigned long)asset.pixelWidth, (unsigned long)asset.pixelHeight, string];
+//    self.imageView.image = [UIImage imageNamed:@"note"];
+//    self.imageView.backgroundColor = UIColor.blackColor;
     switch (asset.mediaType) {
         case PHAssetMediaTypeImage:
             self.typeImageView.image = [[UIImage imageNamed:@"image"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.propertyLabel.text = [NSString stringWithFormat:@"%lux%lu", (unsigned long)asset.pixelWidth, (unsigned long)asset.pixelHeight];
+            [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:self.frame.size];
             break;
-        case PHAssetMediaTypeVideo:
+        case PHAssetMediaTypeVideo: {
             self.typeImageView.image = [[UIImage imageNamed:@"video"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.propertyLabel.text = [NSString stringWithFormat:@"%lux%lu %@", (unsigned long)asset.pixelWidth, (unsigned long)asset.pixelHeight, [self assetDuration:asset]];
+            [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:self.frame.size];
             break;
-        case PHAssetMediaTypeAudio:
+        }
+        case PHAssetMediaTypeAudio: {
             self.typeImageView.image = [[UIImage imageNamed:@"audio"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.propertyLabel.text = [NSString stringWithFormat:@"%@", [self assetDuration:asset]];
+            break;
+        }
         default:
-            self.typeImageView.image = [[UIImage imageNamed:@"other"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.typeImageView.image = [[UIImage imageNamed:@"nosign"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             break;
     }
+}
+
+- (NSString *)assetDuration:(PHAsset *)asset {
+    NSUInteger hours = lround(floor(asset.duration / 3600.)) % 100;
+    NSUInteger minutes = lround(floor(asset.duration / 60.)) % 60;
+    NSUInteger seconds = lround(floor(asset.duration)) % 60;
+    if(hours == 0) {
+        return [NSString stringWithFormat:@"%02li:%02li", minutes, seconds];
+    }
+    return [NSString stringWithFormat:@"%02li:%02li:%02li", hours, minutes, seconds];
 }
 
 

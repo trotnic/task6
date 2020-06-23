@@ -18,16 +18,6 @@
 
 @implementation GalleryCell
 
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self setupView];
-    }
-    return self;
-}
-
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -62,7 +52,7 @@
 }
 
 - (void)loadAsset:(PHAsset *)asset {
-    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:CGSizeZero];
+    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:self.bounds.size];
 }
 
 - (void)setImage:(UIImage *)image {
@@ -71,5 +61,11 @@
 
 - (UIImage *)image {
     return self.imageView.image;
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    self.imageView.image = nil;
 }
 @end

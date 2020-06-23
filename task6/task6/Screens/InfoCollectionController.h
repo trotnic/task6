@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Photos/Photos.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface InfoCollectionController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
+@interface InfoCollectionController : UICollectionViewController <UICollectionViewDelegateFlowLayout, PHPhotoLibraryChangeObserver>
 
 @end
 

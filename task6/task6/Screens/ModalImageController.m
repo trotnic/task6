@@ -9,6 +9,7 @@
 #import "ModalImageController.h"
 #import "UIColor+HEX.h"
 #import "UIImageView+AssetFetch.h"
+#import <AVKit/AVKit.h>
 
 @interface ModalImageController ()
 
@@ -94,7 +95,7 @@
         [self.imageView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor],
         [self.imageView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor],
         [self.imageView.centerYAnchor constraintEqualToAnchor:self.scrollView.centerYAnchor],
-        [self.imageView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor],
+        [self.imageView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor]
     ]];
     
     self.scrollView.contentSize = self.imageView.image.size;

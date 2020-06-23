@@ -93,7 +93,8 @@
         _verticalStack = [UIStackView new];
         _verticalStack.translatesAutoresizingMaskIntoConstraints = NO;
         _verticalStack.axis = UILayoutConstraintAxisVertical;
-        _verticalStack.spacing = 2* [[NSUserDefaults.standardUserDefaults valueForKey:@"sideInset"] floatValue];
+//        _verticalStack.distribution = UIStackViewDistributionFill;
+        _verticalStack.spacing = 40;
     }
     return _verticalStack;
 }
@@ -144,7 +145,7 @@
     
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.verticalStack];
-    self.scrollView.contentSize = self.verticalStack.bounds.size;
+    self.scrollView.contentSize = self.verticalStack.frame.size;
     
     [NSLayoutConstraint activateConstraints:@[
         [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
@@ -168,6 +169,15 @@
     
     [self.verticalStack addArrangedSubview:self.buttonsStack];
 }
+
+- (void)setMargins {
+    if(UIDeviceOrientationIsLandscape(UIDevice.currentDevice.orientation)) {
+        self.view.layoutMargins = UIEdgeInsetsMake(UIScreen.mainScreen.bounds.size.height / 15, UIScreen.mainScreen.bounds.size.height / 5, UIScreen.mainScreen.bounds.size.height / 15, UIScreen.mainScreen.bounds.size.height / 5);
+    } else {
+        self.view.layoutMargins = UIEdgeInsetsMake(2*UIScreen.mainScreen.bounds.size.width / 15, UIScreen.mainScreen.bounds.size.width / 15, UIScreen.mainScreen.bounds.size.width / 5, UIScreen.mainScreen.bounds.size.width / 15);
+    }
+}
+
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];

@@ -33,23 +33,22 @@ static NSString * const reuseIdentifier = @"Cell";
     self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
     
     [self.collectionView registerClass:[InfoCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
         switch (status) {
             case PHAuthorizationStatusAuthorized: {
-                PHFetchOptions *options = [PHFetchOptions new];
-                options.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES]];
-                self.fetchResult = [PHAsset fetchAssetsWithOptions:options];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.collectionView reloadData];
-                });
-                
+                [PHPhotoLibrary.sharedPhotoLibrary registerChangeObserver:self];
+                [self fetchData];
                 break;
             }
             default:
                 break;
         }
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -109,5 +108,17 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 
+- (void)fetchData {
+    PHFetchOptions *options = [PHFetchOptions new];
+    options.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES]];
+    self.fetchResult = [PHAsset fetchAssetsWithOptions:options];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+    });
+}
+
+- (void)photoLibraryDidChange:(PHChange *)changeInstance {
+    [self fetchData];
+}
 
 @end

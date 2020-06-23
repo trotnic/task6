@@ -36,9 +36,7 @@
     if(!_textStack) {
         _textStack = [UIStackView new];
         _textStack.axis = UILayoutConstraintAxisVertical;
-        _textStack.distribution = UIStackViewDistributionEqualSpacing;
-        
-//        _textStack.spacing = [[NSUserDefaults.standardUserDefaults valueForKey:@"sideInset"] floatValue] / 2;
+        _textStack.distribution = UIStackViewDistributionEqualCentering;
     }
     return _textStack;
 }
@@ -49,8 +47,8 @@
         _profileImageView.contentMode = UIViewContentModeScaleAspectFit;
         _profileImageView.image = [UIImage imageNamed:@"apple"];
         
-        [_profileImageView.heightAnchor constraintEqualToConstant:UIScreen.mainScreen.bounds.size.width / 4].active = YES;
-        [_profileImageView.widthAnchor constraintEqualToConstant:UIScreen.mainScreen.bounds.size.width / 4].active = YES;
+        [_profileImageView.heightAnchor constraintEqualToConstant:100].active = YES;
+        [_profileImageView.widthAnchor constraintEqualToConstant:90].active = YES;
     }
     return _profileImageView;
 }
@@ -68,6 +66,7 @@
 - (UILabel *)typeLabel {
     if(!_typeLabel) {
         _typeLabel = [UILabel new];
+        _typeLabel.numberOfLines = 0;
         _typeLabel.text = UIDevice.currentDevice.model;
     }
     return _typeLabel;
@@ -76,6 +75,7 @@
 - (UILabel *)osLabel {
     if(!_osLabel) {
         _osLabel = [UILabel new];
+        _osLabel.numberOfLines = 0;
         _osLabel.text = [NSString stringWithFormat:@"%@ %@", UIDevice.currentDevice.systemName, UIDevice.currentDevice.systemVersion];
     }
     return _osLabel;
@@ -85,8 +85,7 @@
 - (void)setupView {
     
     self.axis = UILayoutConstraintAxisHorizontal;
-    self.spacing = self.profileImageView.image.size.width / 3;
-//    [self.heightAnchor constraintEqualToConstant:self.profileImageView.image.size.width].active = YES;
+    self.spacing = self.profileImageView.image.size.width / 6;
     [self addArrangedSubview:self.profileImageView];
     [self addArrangedSubview:self.textStack];
     

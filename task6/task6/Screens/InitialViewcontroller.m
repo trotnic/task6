@@ -29,8 +29,8 @@
 - (FiguresStackView *)pipeStack {
     if(!_pipeStack) {
         _pipeStack = [FiguresStackView new];
-        _pipeStack.translatesAutoresizingMaskIntoConstraints = NO;
-        [_pipeStack.heightAnchor constraintEqualToConstant:70].active = YES;
+//        _pipeStack.translatesAutoresizingMaskIntoConstraints = NO;
+        [_pipeStack.heightAnchor constraintEqualToConstant:75].active = YES;
         _pipeStack.axis = UILayoutConstraintAxisHorizontal;
         _pipeStack.distribution = UIStackViewDistributionEqualSpacing;
     }
@@ -67,7 +67,9 @@
         _mainPipe = [UIStackView new];
         _mainPipe.translatesAutoresizingMaskIntoConstraints = NO;
         _mainPipe.axis = UILayoutConstraintAxisVertical;
-        _mainPipe.distribution = UIStackViewDistributionEqualCentering;
+        
+//        _mainPipe.spacing = 100.0f;
+        _mainPipe.distribution = UIStackViewDistributionEqualSpacing;
     }
     return _mainPipe;
 }
@@ -98,11 +100,13 @@
     [self.view addSubview:self.mainPipe];
     
     [NSLayoutConstraint activateConstraints:@[
-        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:self.insetSize],
-        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:4*self.insetSize],
-        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-self.insetSize],
-        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:-5*self.insetSize]
+        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:UIScreen.mainScreen.bounds.size.width / 15],
+        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:2*UIScreen.mainScreen.bounds.size.width / 15],
+        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-UIScreen.mainScreen.bounds.size.width / 15],
+        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:-UIScreen.mainScreen.bounds.size.width / 5]
     ]];
+    
+    
     
     [self.mainPipe addArrangedSubview:self.titleLabel];
     [self.mainPipe addArrangedSubview:self.pipeStack];

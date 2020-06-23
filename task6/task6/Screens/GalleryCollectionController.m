@@ -11,6 +11,7 @@
 #import <Photos/Photos.h>
 #import "ModalImageController.h"
 #import "UIColor+HEX.h"
+#import <AVKit/AVKit.h>
 
 
 @interface GalleryCollectionController ()
@@ -32,15 +33,13 @@ static NSString * const reuseIdentifier = @"Cell";
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
     
+    [self.collectionView registerClass:[GalleryCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
         switch (status) {
             case PHAuthorizationStatusAuthorized: {
-                PHFetchOptions *options = [PHFetchOptions new];
-                options.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES]];
-                self.fetchResult = [PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:options];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.collectionView reloadData];
-                });
+                [PHPhotoLibrary.sharedPhotoLibrary registerChangeObserver:self];
+                [self fetchData];
                 
                 break;
             }
@@ -48,14 +47,6 @@ static NSString * const reuseIdentifier = @"Cell";
                 break;
         }
     }];
-    
-    [self.collectionView registerClass:[GalleryCell class] forCellWithReuseIdentifier:reuseIdentifier];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    NSLog(@"%lu", (unsigned long)self.fetchResult.count);
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -95,7 +86,48 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self presentViewController:[[ModalImageController alloc] initWithAsset:self.fetchResult[indexPath.item]] animated:YES completion:^{}];
+    switch (((PHAsset *) self.fetchResult[indexPath.item]).mediaType) {
+        case PHAssetMediaTypeVideo: {
+            [PHCachingImageManager.defaultManager requestAVAssetForVideo:self.fetchResult[indexPath.item] options:0 resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    AVURLAsset *urlAsset = (AVURLAsset *)asset;
+                    AVPlayer *player = [AVPlayer playerWithURL: urlAsset.URL];
+                    AVPlayerViewController *vc = [AVPlayerViewController new];
+                    vc.player = player;
+                    [self presentViewController:vc animated:YES completion:^{
+                        
+                    }];
+                });
+            }];
+            break;
+        }
+        case PHAssetMediaTypeImage: {
+            [self presentViewController:[[ModalImageController alloc] initWithAsset:self.fetchResult[indexPath.item]] animated:YES completion:^{}];
+            break;
+        }
+        default: {
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!" message:@"Can't show this :(" preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
+            [self presentViewController:vc animated:YES completion:^{}];
+            break;
+        }
+    }
+}
+
+
+- (void)fetchData {
+    PHFetchOptions *options = [PHFetchOptions new];
+    options.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES]];
+    
+    
+    self.fetchResult = [PHAsset fetchAssetsWithOptions:options];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+    });
+}
+
+- (void)photoLibraryDidChange:(PHChange *)changeInstance {
+    [self fetchData];
 }
 
 @end

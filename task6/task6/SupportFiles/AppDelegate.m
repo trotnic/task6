@@ -18,7 +18,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+//    [[UITabBarItem appearance] setImageInsets:UIEdgeInsetsMake(0, -3, -6, -3)];
     [self setupUserDefaults];
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupInitialScreen) name:@"initialScreenRequiredNotification" object:nil];
@@ -35,7 +35,7 @@
 
 - (void)setupUserDefaults {
     [NSUserDefaults.standardUserDefaults setValuesForKeysWithDictionary:@{
-        @"sideInset": @(UIScreen.mainScreen.bounds.size.width / 15)
+        @"sideInset": @(UIScreen.mainScreen.bounds.size.height / 15)
     }];
 }
 
