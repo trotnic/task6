@@ -17,9 +17,10 @@
 @property (nonatomic, strong) UIStackView *subInfoStack;
 @property (nonatomic, strong) UIImageView *typeImageView;
 @property (nonatomic, strong) UILabel *propertyLabel;
-@property (nonatomic, strong) PHAsset *asset;
- 
 
+@property (nonatomic, strong) NSLayoutConstraint *widthImage;
+@property (nonatomic, strong) NSLayoutConstraint *heightImage;
+ 
 @end
 
 @implementation InfoCell
@@ -39,8 +40,10 @@
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
         _imageView.clipsToBounds = YES;
-        [_imageView.widthAnchor constraintEqualToConstant:self.bounds.size.width / 5].active = YES;
-        [_imageView.heightAnchor constraintEqualToConstant:self.bounds.size.width / 5].active = YES;
+        self.widthImage = [_imageView.widthAnchor constraintEqualToConstant:self.bounds.size.width / 5];
+        self.heightImage = [_imageView.heightAnchor constraintEqualToConstant:self.bounds.size.width / 5];
+        self.widthImage.active = YES;
+        self.heightImage.active = YES;
         
     }
     return _imageView;
@@ -49,8 +52,6 @@
 - (UILabel *)nameLabel {
     if(!_nameLabel) {
         _nameLabel = [UILabel new];
-//        _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-//        _nameLabel.numberOfLines = 0;
         _nameLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
     }
     return _nameLabel;
@@ -94,6 +95,14 @@
     return _propertyLabel;
 }
 
+- (void)layoutIfNeeded {
+    [super layoutIfNeeded];
+    self.widthImage.constant = self.bounds.size.width / 5;
+    self.heightImage.constant = self.bounds.size.width / 5;
+}
+
+#pragma mark - Utility
+
 - (void)setupView {
     [self addSubview:self.imageView];
     
@@ -103,8 +112,6 @@
     [NSLayoutConstraint activateConstraints:@[
         [self.imageView.leadingAnchor constraintEqualToAnchor:self.layoutMarginsGuide.leadingAnchor],
         [self.imageView.centerYAnchor constraintEqualToAnchor:self.layoutMarginsGuide.centerYAnchor],
-        [self.imageView.widthAnchor constraintEqualToConstant:(self.bounds.size.width - 30) / 5],
-        [self.imageView.heightAnchor constraintEqualToConstant:(self.bounds.size.width - 30) / 5],
         
         [self.descriptionStack.leadingAnchor constraintEqualToAnchor:self.imageView.trailingAnchor constant:10.0f],
         [self.descriptionStack.topAnchor constraintEqualToAnchor:self.layoutMarginsGuide.topAnchor constant:self.bounds.size.height / 6],
@@ -120,14 +127,9 @@
 }
 
 - (void)configureWithAsset:(PHAsset *)asset {
-    self.asset = asset;
-    
-    
     PHAssetResource *resource = ((PHAssetResource *)[PHAssetResource assetResourcesForAsset:asset].firstObject);
     self.nameLabel.text = resource.originalFilename;
     
-//    self.imageView.image = [UIImage imageNamed:@"note"];
-//    self.imageView.backgroundColor = UIColor.blackColor;
     switch (asset.mediaType) {
         case PHAssetMediaTypeImage:
             self.typeImageView.image = [[UIImage imageNamed:@"image"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -160,7 +162,5 @@
     }
     return [NSString stringWithFormat:@"%02li:%02li:%02li", hours, minutes, seconds];
 }
-
-
 
 @end

@@ -81,9 +81,7 @@
     return _osLabel;
 }
 
-
 - (void)setupView {
-    
     self.axis = UILayoutConstraintAxisHorizontal;
     self.spacing = self.profileImageView.image.size.width / 6;
     [self addArrangedSubview:self.profileImageView];
@@ -92,8 +90,6 @@
     [self.textStack addArrangedSubview:self.deviceLabel];
     [self.textStack addArrangedSubview:self.typeLabel];
     [self.textStack addArrangedSubview:self.osLabel];
-    
 }
-
 
 @end

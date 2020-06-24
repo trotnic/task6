@@ -13,9 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GalleryCell : UICollectionViewCell
 
-@property (nonatomic, strong, readonly) UIImage *image;
-
-- (void)setImage:(UIImage *)image;
 - (void)loadAsset:(PHAsset *)asset;
 
 @end

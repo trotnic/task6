@@ -20,6 +20,16 @@
 
 @implementation MainTabBarController
 
+#pragma mark - Controller Lifecycle
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.viewControllers = @[self.infoController, self.galleryController, self.homeController];
+    self.selectedIndex = 1;
+}
+
+#pragma mark - Lazy getters
+
 - (UINavigationController *)galleryController {
     if(!_galleryController) {
         UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
@@ -46,13 +56,6 @@
         _infoController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"" image:[[UIImage imageNamed:@"info_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:@"info_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     }
     return _infoController;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    self.viewControllers = @[self.infoController, self.galleryController, self.homeController];
-    self.selectedIndex = 0;
 }
 
 @end

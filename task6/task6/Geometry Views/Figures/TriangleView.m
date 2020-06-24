@@ -11,12 +11,7 @@
 
 @implementation TriangleView
 
-
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-    
-    
     
     UIBezierPath *trianglePath = [UIBezierPath bezierPath];
     
@@ -33,7 +28,7 @@
     [UIColor.clearColor setFill];
     [path fill];
     [path appendPath:trianglePath];
+    
 }
-
 
 @end

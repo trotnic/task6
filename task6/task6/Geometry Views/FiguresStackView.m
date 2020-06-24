@@ -69,6 +69,8 @@ static NSString *kTriangleAnimation = @"triangleRotation";
     return _triangleView;
 }
 
+#pragma mark - Utility
+
 - (void)setupView {
     [self addArrangedSubview:self.circleView];
     [self addArrangedSubview:self.squareView];

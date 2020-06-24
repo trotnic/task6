@@ -22,6 +22,8 @@
 
 static NSString * const reuseIdentifier = @"Cell";
 
+#pragma mark - Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -46,17 +48,11 @@ static NSString * const reuseIdentifier = @"Cell";
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-}
-
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.fetchResult.count;
@@ -67,7 +63,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
     [cell configureWithAsset:self.fetchResult[indexPath.item]];
-    
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -89,24 +85,19 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.navigationController pushViewController:[[SingleItemController alloc] initWithAsset:self.fetchResult[indexPath.item]] animated:YES];
 }
 
-#pragma mark FlowLayout Delegate
+#pragma mark - <UICollectionViewDelegateFlowLayout>
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.width / 5);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 1.0f;
-}
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 5.0f;
+    return 4.0f;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(5, 5, 5, 5);
+    return UIEdgeInsetsMake(10, 0, 10, 0);
 }
-
 
 - (void)fetchData {
     PHFetchOptions *options = [PHFetchOptions new];
@@ -117,8 +108,11 @@ static NSString * const reuseIdentifier = @"Cell";
     });
 }
 
+#pragma mark - <PHPhotoLibraryChangeObserver>
+
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
     [self fetchData];
 }
+
 
 @end

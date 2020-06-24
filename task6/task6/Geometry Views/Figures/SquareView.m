@@ -11,19 +11,13 @@
 
 @implementation SquareView
 
-
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
-    
     UIColor *color = [UIColor rsschoolBlueColor];
     [color setFill];
     [path fill];
     
 }
 
- 
- 
 @end

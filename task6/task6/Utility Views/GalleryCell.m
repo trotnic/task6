@@ -18,6 +18,7 @@
 
 @implementation GalleryCell
 
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -26,7 +27,6 @@
     }
     return self;
 }
-
 
 - (UIImageView *)imageView {
     if(!_imageView) {
@@ -46,21 +46,11 @@
         [self.imageView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor],
         [self.imageView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]
     ]];
-    
     self.imageView.image = [UIImage imageNamed:@"apple"];
-    
 }
 
 - (void)loadAsset:(PHAsset *)asset {
     [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:self.bounds.size];
-}
-
-- (void)setImage:(UIImage *)image {
-    self.imageView.image = image;
-}
-
-- (UIImage *)image {
-    return self.imageView.image;
 }
 
 - (void)prepareForReuse {
@@ -68,4 +58,5 @@
     
     self.imageView.image = nil;
 }
+
 @end

@@ -48,15 +48,6 @@
     return self;
 }
 
-- (UIStackView *)stackView {
-    if(!_stackView) {
-        _stackView = [UIStackView new];
-        _stackView.axis = UILayoutConstraintAxisVertical;
-        _stackView.spacing = 25.0f;
-        _stackView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    return _stackView;
-}
 
 #pragma mark Lifecycle
 
@@ -65,59 +56,63 @@
     [super viewDidLoad];
     
     self.assetResource = ((PHAssetResource *)[PHAssetResource assetResourcesForAsset:self.asset].firstObject);
-    self.view.backgroundColor = [UIColor rsschoolWhiteColor];
+    
     self.navigationItem.title = self.assetResource.originalFilename;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
-    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     
+    self.view.backgroundColor = [UIColor rsschoolWhiteColor];
     [self.view addSubview:self.scrollView];
+    
     [self.scrollView addSubview:self.contentView];
     [self.contentView addSubview:self.imageView];
     [self.contentView addSubview:self.textStack];
     [self.contentView addSubview:self.activityButton];
     
-    self.scrollView.delegate = self;
+    
     
     [self.textStack addArrangedSubview:self.creationLabel];
     [self.textStack addArrangedSubview:self.modificationLabel];
     [self.textStack addArrangedSubview:self.typeLabel];
+    
     self.scrollView.contentSize = self.stackView.frame.size;
+    self.scrollView.delegate = self;
+    
     [self.imageView fetchImageWithAsset:self.asset contentMode:PHImageContentModeAspectFit targetSize:UIScreen.mainScreen.bounds.size];
-//    self.imageView.image = [UIImage  imageNamed:@"nosign"];
-    
-    
-    
-        [NSLayoutConstraint activateConstraints:@[
-            [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-            [self.scrollView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
-            [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-            [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
-            
-            [self.contentView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor],
-            [self.contentView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor],
-            [self.contentView.trailingAnchor constraintEqualToAnchor:self.scrollView.trailingAnchor],
-            [self.contentView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor],
-            [self.contentView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor],
-            
-            [self.imageView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.insetSize / 2],
-            [self.imageView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-self.insetSize / 2],
-            [self.imageView.bottomAnchor constraintEqualToAnchor:self.textStack.topAnchor constant:-self.insetSize],
-            
-            [self.textStack.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.insetSize / 2],
-            [self.textStack.topAnchor constraintEqualToAnchor:self.imageView.bottomAnchor constant:self.insetSize],
-            [self.textStack.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor],
-            [self.textStack.bottomAnchor constraintEqualToAnchor:self.activityButton.topAnchor constant:-self.insetSize],
-            
-            [self.activityButton.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.insetSize],
-            [self.activityButton.topAnchor constraintEqualToAnchor:self.textStack.bottomAnchor constant:self.insetSize],
-            [self.activityButton.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-self.insetSize],
-            [self.activityButton.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-self.insetSize]
-        ]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.scrollView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+        [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+        
+        [self.contentView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor],
+        [self.contentView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor],
+        [self.contentView.trailingAnchor constraintEqualToAnchor:self.scrollView.trailingAnchor],
+        [self.contentView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor],
+        [self.contentView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor],
+        
+        [self.imageView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.insetSize / 2],
+        [self.imageView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-self.insetSize / 2],
+        [self.imageView.bottomAnchor constraintEqualToAnchor:self.textStack.topAnchor constant:-self.insetSize],
+        
+        [self.textStack.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.insetSize / 2],
+        [self.textStack.topAnchor constraintEqualToAnchor:self.imageView.bottomAnchor constant:self.insetSize],
+        [self.textStack.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor],
+        [self.textStack.bottomAnchor constraintEqualToAnchor:self.activityButton.topAnchor constant:-self.insetSize],
+        
+        [self.activityButton.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.insetSize],
+        [self.activityButton.topAnchor constraintEqualToAnchor:self.textStack.bottomAnchor constant:self.insetSize],
+        [self.activityButton.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-self.insetSize],
+        [self.activityButton.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-self.insetSize]
+    ]];
 
     if (@available(iOS 13.0, *)) {
-        [self.imageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:self.insetSize/2].active = YES;
+        [self.imageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor].active = YES;
     }
     else {
         [self.contentView.centerYAnchor constraintEqualToAnchor:self.scrollView.centerYAnchor].active = YES;
@@ -125,10 +120,15 @@
     }
 }
 
+#pragma mark - <UIScrollViewDelegate>
+
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return self.contentView;
 }
+
+
+#pragma mark - Utility
 
 
 - (void)backAction {
@@ -158,7 +158,48 @@
 }
 
 
-#pragma mark Getters
+- (void)share {
+    switch (self.asset.mediaType) {
+        case PHAssetMediaTypeImage: {
+            PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+            options.synchronous = YES;
+            options.version = PHImageRequestOptionsVersionCurrent;
+            options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+            options.resizeMode = PHImageRequestOptionsResizeModeNone;
+            
+            [PHImageManager.defaultManager requestImageDataForAsset:self.asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+                [self presentActivityWith:imageData];
+            }];
+            break;
+        }
+        case PHAssetMediaTypeVideo: {
+            [PHCachingImageManager.defaultManager requestAVAssetForVideo:self.asset options:0 resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                AVURLAsset *urlAsset = (AVURLAsset *)asset;
+                [self presentActivityWith:urlAsset.URL];
+            }];
+            break;
+        }
+        default: {
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!" message:@"Can't share this :(" preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
+            [self presentViewController:vc animated:YES completion:^{}];
+        }
+    }
+}
+
+- (void)presentActivityWith:(NSObject *)data {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:@[data] applicationActivities:@[]];
+        
+        vc.popoverPresentationController.sourceView = self.view;
+        vc.popoverPresentationController.sourceRect = CGRectMake(UIScreen.mainScreen.bounds.size.width / 2, UIScreen.mainScreen.bounds.size.height / 2, 0, 0);
+        vc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+        [self presentViewController:vc animated:YES completion:^{}];
+    });
+}
+
+
+#pragma mark - Lazy Getters
 
 
 - (UIImageView *)imageView {
@@ -175,7 +216,6 @@
     if(!_scrollView) {
         _scrollView = [UIScrollView new];
         _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-
     }
     return _scrollView;
 }
@@ -205,7 +245,6 @@
 - (UILabel *)creationLabel {
     if(!_creationLabel) {
         _creationLabel = [UILabel new];
-        _creationLabel.numberOfLines = 0;
         
         NSString *internalString = [NSString stringWithFormat:@"Creation date: %@", [self formattedDate:self.asset.creationDate]];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:internalString attributes:@{
@@ -227,7 +266,6 @@
 - (UILabel *)modificationLabel {
     if(!_modificationLabel) {
         _modificationLabel = [UILabel new];
-        _modificationLabel.numberOfLines = 0;
 
         NSString *internalString = [NSString stringWithFormat:@"Modification date: %@", [self formattedDate:self.asset.modificationDate]];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:internalString attributes:@{
@@ -244,7 +282,7 @@
     }
     return _modificationLabel;
 }
-
+    
 
 - (UILabel *)typeLabel {
     if(!_typeLabel) {
@@ -291,45 +329,15 @@
     return _insetSize;
 }
 
-- (void)share {
-    
-    switch (self.asset.mediaType) {
-        case PHAssetMediaTypeImage: {
-            PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-            options.synchronous = YES;
-            options.version = PHImageRequestOptionsVersionCurrent;
-            options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-            options.resizeMode = PHImageRequestOptionsResizeModeNone;
-            
-            [PHImageManager.defaultManager requestImageDataForAsset:self.asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                [self presentActivityWith:imageData];
-            }];
-            break;
-        }
-        case PHAssetMediaTypeVideo: {
-            [PHCachingImageManager.defaultManager requestAVAssetForVideo:self.asset options:0 resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-                AVURLAsset *urlAsset = (AVURLAsset *)asset;
-                [self presentActivityWith:urlAsset.URL];
-            }];
-            break;
-        }
-        default: {
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!" message:@"Can't share this :(" preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
-            [self presentViewController:vc animated:YES completion:^{}];
-        }
-    }
-}
 
-- (void)presentActivityWith:(NSObject *)data {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:@[data] applicationActivities:@[]];
-        
-        vc.popoverPresentationController.sourceView = self.view;
-        vc.popoverPresentationController.sourceRect = CGRectMake(UIScreen.mainScreen.bounds.size.width / 2, UIScreen.mainScreen.bounds.size.height / 2, 0, 0);
-        vc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-        [self presentViewController:vc animated:YES completion:^{}];
-    });
+- (UIStackView *)stackView {
+    if(!_stackView) {
+        _stackView = [UIStackView new];
+        _stackView.axis = UILayoutConstraintAxisVertical;
+        _stackView.spacing = 25.0f;
+        _stackView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _stackView;
 }
 
 

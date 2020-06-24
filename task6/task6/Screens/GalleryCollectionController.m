@@ -26,6 +26,10 @@
 
 static NSString * const reuseIdentifier = @"Cell";
 
+
+#pragma mark - Controller Lifecycle
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.collectionView.backgroundColor = [UIColor rsschoolWhiteColor];
@@ -49,17 +53,19 @@ static NSString * const reuseIdentifier = @"Cell";
     }];
 }
 
+
 #pragma mark <UICollectionViewDataSource>
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.fetchResult.count;
 }
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GalleryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
@@ -67,23 +73,29 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
+
 #pragma mark <UICollectionViewDelegate>
+
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 4;
 }
 
+
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 4;
 }
+
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(5, 4, 4, 4);
 }
 
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake((self.collectionView.frame.size.width - 16) / 3, (self.collectionView.frame.size.width - 16) / 3);
 }
+
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (((PHAsset *) self.fetchResult[indexPath.item]).mediaType) {
@@ -125,6 +137,10 @@ static NSString * const reuseIdentifier = @"Cell";
         [self.collectionView reloadData];
     });
 }
+
+
+#pragma mark - <PHPhotoLibraryChangeObserver>
+
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
     [self fetchData];

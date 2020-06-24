@@ -23,6 +23,7 @@
 
 @implementation ModalImageController
 
+
 - (instancetype)initWithAsset:(PHAsset *)asset
 {
     self = [super init];
@@ -30,24 +31,6 @@
         _asset = asset;
     }
     return self;
-}
-
-- (UIImageView *)imageView {
-    if(!_imageView) {
-        _imageView = [UIImageView new];
-        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
-        _imageView.contentMode = UIViewContentModeScaleAspectFit;
-        [_imageView fetchImageWithAsset:self.asset contentMode:PHImageContentModeAspectFit targetSize:CGSizeZero];
-    }
-    return _imageView;
-}
-
-- (UIScrollView *)scrollView {
-    if(!_scrollView) {
-        _scrollView = [UIScrollView new];
-        _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    return _scrollView;
 }
 
 - (void)closeUp:(UIPanGestureRecognizer *)sender {
@@ -75,15 +58,24 @@
     }
 }
 
+#pragma mark - Controller Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(closeUp:)];
     [self.view addGestureRecognizer:self.recognizer];
-    self.modalPresentationStyle = UIModalPresentationFullScreen;
     
+    self.view.backgroundColor = [UIColor rsschoolWhiteColor];
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.imageView];
-    self.view.backgroundColor = [UIColor rsschoolWhiteColor];
+    
+    
+    self.scrollView.contentSize = self.imageView.image.size;
+    self.scrollView.delegate = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [NSLayoutConstraint activateConstraints:@[
         [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
         [self.scrollView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
@@ -97,12 +89,31 @@
         [self.imageView.centerYAnchor constraintEqualToAnchor:self.scrollView.centerYAnchor],
         [self.imageView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor]
     ]];
-    
-    self.scrollView.contentSize = self.imageView.image.size;
-    self.scrollView.maximumZoomScale = 5.0;
-    self.scrollView.minimumZoomScale = 1.0;
-    self.scrollView.delegate = self;
 }
+
+#pragma mark - Lazy Getters
+
+- (UIImageView *)imageView {
+    if(!_imageView) {
+        _imageView = [UIImageView new];
+        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [_imageView fetchImageWithAsset:self.asset contentMode:PHImageContentModeAspectFit targetSize:CGSizeZero];
+    }
+    return _imageView;
+}
+
+- (UIScrollView *)scrollView {
+    if(!_scrollView) {
+        _scrollView = [UIScrollView new];
+        _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+        _scrollView.minimumZoomScale = 1.0;
+        _scrollView.maximumZoomScale = 5.0;
+    }
+    return _scrollView;
+}
+
+#pragma mark - <UIScrollViewDelegate>
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     return self.imageView;

@@ -23,19 +23,59 @@
 
 @implementation InitialViewcontroller
 
+
+#pragma mark Controller Lifecycle
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.view.backgroundColor = UIColor.whiteColor;
+    
+    [self.view addSubview:self.titleLabel];
+    self.titleLabel.text = @"Are you ready?";
+    [self.view addSubview:self.pipeStack];
+    
+    [self.view addSubview:self.startButton];
+    [self.startButton setTitle:@"START" forState:UIControlStateNormal];
+    [self.startButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    [self.startButton addTarget:self action:@selector(buttonPressend:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.mainPipe];
+    [self.mainPipe addArrangedSubview:self.titleLabel];
+    [self.mainPipe addArrangedSubview:self.pipeStack];
+    [self.mainPipe addArrangedSubview:self.startButton];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:UIScreen.mainScreen.bounds.size.width / 15],
+        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:2*UIScreen.mainScreen.bounds.size.width / 15],
+        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-UIScreen.mainScreen.bounds.size.width / 15],
+        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:-UIScreen.mainScreen.bounds.size.width / 5]
+    ]];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.pipeStack runAnimation];
+}
+
+
 #pragma mark Getters
 
 
 - (FiguresStackView *)pipeStack {
     if(!_pipeStack) {
         _pipeStack = [FiguresStackView new];
-//        _pipeStack.translatesAutoresizingMaskIntoConstraints = NO;
         [_pipeStack.heightAnchor constraintEqualToConstant:75].active = YES;
         _pipeStack.axis = UILayoutConstraintAxisHorizontal;
         _pipeStack.distribution = UIStackViewDistributionEqualSpacing;
     }
     return _pipeStack;
 }
+
 
 - (UILabel *)titleLabel {
     if(!_titleLabel) {
@@ -47,6 +87,7 @@
     }
     return _titleLabel;
 }
+
 
 - (UIButton *)startButton {
     if(!_startButton) {
@@ -62,17 +103,17 @@
     return _startButton;
 }
 
+
 - (UIStackView *)mainPipe {
     if(!_mainPipe) {
         _mainPipe = [UIStackView new];
         _mainPipe.translatesAutoresizingMaskIntoConstraints = NO;
         _mainPipe.axis = UILayoutConstraintAxisVertical;
-        
-//        _mainPipe.spacing = 100.0f;
         _mainPipe.distribution = UIStackViewDistributionEqualSpacing;
     }
     return _mainPipe;
 }
+
 
 - (CGFloat)insetSize {
     if(!_insetSize) {
@@ -81,47 +122,10 @@
     return _insetSize;
 }
 
-#pragma mark Controller Lifecycle
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    self.view.backgroundColor = UIColor.whiteColor;
-    
-    [self.view addSubview:self.titleLabel];
-    self.titleLabel.text = @"Are you ready?";
-    [self.view addSubview:self.pipeStack];
-    
-    [self.view addSubview:self.startButton];
-    [self.startButton setTitle:@"START" forState:UIControlStateNormal];
-    [self.startButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [self.startButton addTarget:self action:@selector(buttonPressend:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:self.mainPipe];
-    
-    [NSLayoutConstraint activateConstraints:@[
-        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:UIScreen.mainScreen.bounds.size.width / 15],
-        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:2*UIScreen.mainScreen.bounds.size.width / 15],
-        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-UIScreen.mainScreen.bounds.size.width / 15],
-        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:-UIScreen.mainScreen.bounds.size.width / 5]
-    ]];
-    
-    
-    
-    [self.mainPipe addArrangedSubview:self.titleLabel];
-    [self.mainPipe addArrangedSubview:self.pipeStack];
-    [self.mainPipe addArrangedSubview:self.startButton];
-    
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self.pipeStack runAnimation];
-}
 
 - (void)buttonPressend:(UIButton *)sender {
     [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"mainScreenRequiredNotification" object:nil]];
 }
+
 
 @end

@@ -31,6 +31,65 @@
 
 @implementation HomeController
 
+#pragma mark - Controller Lifecycle
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.navigationItem.title = @"RSSchool Task 6";
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
+    
+    self.view.backgroundColor = [UIColor rsschoolWhiteColor];
+    
+    [self.view addSubview:self.scrollView];
+    [self.scrollView addSubview:self.verticalStack];
+    self.scrollView.contentSize = self.verticalStack.bounds.size;
+    
+    [self.verticalStack addArrangedSubview:self.profileStackView];
+    [self.verticalStack addArrangedSubview:self.dividerView1];
+    [self.verticalStack addArrangedSubview:self.figuresStackView];
+    [self.verticalStack addArrangedSubview:self.dividerView2];
+    
+    [self.buttonsStack addArrangedSubview:self.cvButton];
+    [self.buttonsStack addArrangedSubview:self.resumeButton];
+    
+    [self.verticalStack addArrangedSubview:self.buttonsStack];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.scrollView.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],
+        [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor],
+        
+        [self.verticalStack.leadingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.leadingAnchor constant:self.insetSize/2],
+        [self.verticalStack.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor constant:self.insetSize ],
+        [self.verticalStack.trailingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.trailingAnchor constant:-self.insetSize/2],
+        [self.verticalStack.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-self.insetSize],
+    ]];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.figuresStackView runAnimation];
+}
+
+#pragma mark - Utility
+
+- (void)openCV {
+    [UIApplication.sharedApplication openURL:[NSURL URLWithString: @"https://trotnic.github.io/rsschool-cv/cv"] options:@{} completionHandler:^(BOOL success) {
+    }];
+}
+
+- (void)backToStart {
+    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"initialScreenRequiredNotification" object:nil]];
+}
+
+#pragma mark - Lazy getters
+
 - (UIView *)dividerView1 {
     if(!_dividerView1) {
         _dividerView1 = [UIView new];
@@ -68,7 +127,7 @@
         _cvButton.backgroundColor = [UIColor rsschoolYellowColor];
         [_cvButton setTitleColor:[UIColor rsschoolBlackColor] forState:UIControlStateNormal];
         
-        [_cvButton addTarget:self action:@selector(goToCV) forControlEvents:UIControlEventTouchUpInside];
+        [_cvButton addTarget:self action:@selector(openCV) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cvButton;
 }
@@ -93,7 +152,6 @@
         _verticalStack = [UIStackView new];
         _verticalStack.translatesAutoresizingMaskIntoConstraints = NO;
         _verticalStack.axis = UILayoutConstraintAxisVertical;
-//        _verticalStack.distribution = UIStackViewDistributionFill;
         _verticalStack.spacing = 40;
     }
     return _verticalStack;
@@ -131,66 +189,5 @@
     return _insetSize;
 }
 
-#pragma mark Lifecycle
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    
-    self.navigationItem.title = @"RSSchool Task 6";
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
-    
-    self.view.backgroundColor = [UIColor rsschoolWhiteColor];
-    
-    [self.view addSubview:self.scrollView];
-    [self.scrollView addSubview:self.verticalStack];
-    self.scrollView.contentSize = self.verticalStack.frame.size;
-    
-    [NSLayoutConstraint activateConstraints:@[
-        [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-        [self.scrollView.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],
-        [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-        [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor],
-        
-        [self.verticalStack.leadingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.leadingAnchor constant:self.insetSize],
-        [self.verticalStack.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor constant:self.insetSize],
-        [self.verticalStack.trailingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.trailingAnchor constant:-self.insetSize],
-        [self.verticalStack.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-self.insetSize],
-    ]];
-    
-    [self.verticalStack addArrangedSubview:self.profileStackView];
-    [self.verticalStack addArrangedSubview:self.dividerView1];
-    [self.verticalStack addArrangedSubview:self.figuresStackView];
-    [self.verticalStack addArrangedSubview:self.dividerView2];
-    
-    [self.buttonsStack addArrangedSubview:self.cvButton];
-    [self.buttonsStack addArrangedSubview:self.resumeButton];
-    
-    [self.verticalStack addArrangedSubview:self.buttonsStack];
-}
-
-- (void)setMargins {
-    if(UIDeviceOrientationIsLandscape(UIDevice.currentDevice.orientation)) {
-        self.view.layoutMargins = UIEdgeInsetsMake(UIScreen.mainScreen.bounds.size.height / 15, UIScreen.mainScreen.bounds.size.height / 5, UIScreen.mainScreen.bounds.size.height / 15, UIScreen.mainScreen.bounds.size.height / 5);
-    } else {
-        self.view.layoutMargins = UIEdgeInsetsMake(2*UIScreen.mainScreen.bounds.size.width / 15, UIScreen.mainScreen.bounds.size.width / 15, UIScreen.mainScreen.bounds.size.width / 5, UIScreen.mainScreen.bounds.size.width / 15);
-    }
-}
-
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.figuresStackView runAnimation];
-}
-
-- (void)goToCV {
-    [UIApplication.sharedApplication openURL:[NSURL URLWithString: @"https://trotnic.github.io/rsschool-cv/cv"] options:@{} completionHandler:^(BOOL success) {
-    }];
-}
-
-- (void)backToStart {
-    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"initialScreenRequiredNotification" object:nil]];
-}
 
 @end
