@@ -97,6 +97,10 @@
     }
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 #pragma mark - Lazy Getters
 
 - (UIImageView *)imageView {

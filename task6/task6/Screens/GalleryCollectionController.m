@@ -12,7 +12,7 @@
 #import "ModalImageController.h"
 #import "UIColor+HEX.h"
 #import <AVKit/AVKit.h>
-
+#import "PlayerController.h"
 
 @interface GalleryCollectionController ()
 
@@ -29,10 +29,10 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.modalPresentationCapturesStatusBarAppearance = YES;
+    
     self.collectionView.backgroundColor = [UIColor rsschoolWhiteColor];
     self.navigationItem.title = @"Gallery";
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
     
     [self.collectionView registerClass:[GalleryCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
@@ -52,6 +52,9 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.collectionView.collectionViewLayout invalidateLayout];
+    
+    
+    self.navigationController.navigationBar.layoutMargins = UIEdgeInsetsMake(10, 20, 20, 20);
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
@@ -103,9 +106,11 @@ static NSString * const reuseIdentifier = @"Cell";
                 dispatch_async(dispatch_get_main_queue(), ^{
                     AVURLAsset *urlAsset = (AVURLAsset *)asset;
                     AVPlayer *player = [AVPlayer playerWithURL: urlAsset.URL];
-                    AVPlayerViewController *vc = [AVPlayerViewController new];
+                    PlayerController *vc = [PlayerController new];
                     vc.player = player;
-                    [self presentViewController:vc animated:YES completion:nil];
+                    vc.modalPresentationCapturesStatusBarAppearance = YES;
+                    [self presentViewController:vc animated:YES completion:^{
+                    }];
                 });
             }];
             break;
@@ -115,6 +120,7 @@ static NSString * const reuseIdentifier = @"Cell";
             vc.completion = ^{
                 [self.collectionView.collectionViewLayout invalidateLayout];
             };
+            vc.modalPresentationCapturesStatusBarAppearance = YES;
             [self presentViewController:vc animated:YES completion:nil];
             break;
         }
@@ -122,6 +128,7 @@ static NSString * const reuseIdentifier = @"Cell";
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!"
                                                                         message:@"Can't show this :("
                                                                  preferredStyle:UIAlertControllerStyleAlert];
+            vc.modalPresentationCapturesStatusBarAppearance = YES;
             [vc addAction:[UIAlertAction actionWithTitle:@"ok"
                                                    style:UIAlertActionStyleCancel
                                                  handler:nil]];
@@ -143,6 +150,10 @@ static NSString * const reuseIdentifier = @"Cell";
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView reloadData];
     });
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 #pragma mark - <PHPhotoLibraryChangeObserver>

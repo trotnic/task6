@@ -12,10 +12,10 @@
 
 @interface InitialViewController ()
 
-@property (nonatomic, strong) FiguresStackView *pipeStack;
+@property (nonatomic, strong) FiguresStackView *figuresStack;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *startButton;
-@property (nonatomic, strong) UIStackView *mainPipe;
+@property (nonatomic, strong) UIStackView *mainStack;
 
 @end
 
@@ -30,21 +30,21 @@
     
     self.titleLabel.text = @"Are you ready?";
     
-    [self.view addSubview:self.pipeStack];
-    [self.view addSubview:self.mainPipe];
-    [self.mainPipe addArrangedSubview:self.titleLabel];
-    [self.mainPipe addArrangedSubview:self.pipeStack];
-    [self.mainPipe addArrangedSubview:self.startButton];
+    [self.view addSubview:self.figuresStack];
+    [self.view addSubview:self.mainStack];
+    [self.mainStack addArrangedSubview:self.titleLabel];
+    [self.mainStack addArrangedSubview:self.figuresStack];
+    [self.mainStack addArrangedSubview:self.startButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [NSLayoutConstraint activateConstraints:@[
-        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor],
-        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],
-        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor],
-        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor]
+        [self.mainStack.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor],
+        [self.mainStack.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],
+        [self.mainStack.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor],
+        [self.mainStack.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor]
     ]];
 }
 
@@ -56,18 +56,18 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.pipeStack runAnimation];
+    [self.figuresStack runAnimation];
 }
 
 #pragma mark Getters
 
-- (FiguresStackView *)pipeStack {
-    if(!_pipeStack) {
-        _pipeStack = [FiguresStackView new];
-        _pipeStack.axis = UILayoutConstraintAxisHorizontal;
-        _pipeStack.distribution = UIStackViewDistributionEqualSpacing;
+- (FiguresStackView *)figuresStack {
+    if(!_figuresStack) {
+        _figuresStack = [FiguresStackView new];
+        _figuresStack.axis = UILayoutConstraintAxisHorizontal;
+        _figuresStack.distribution = UIStackViewDistributionEqualSpacing;
     }
-    return _pipeStack;
+    return _figuresStack;
 }
 
 - (UILabel *)titleLabel {
@@ -85,7 +85,7 @@
     if(!_startButton) {
         _startButton = [UIButton new];
         _startButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_startButton.heightAnchor constraintEqualToConstant:55].active = YES;
+        [_startButton.heightAnchor constraintEqualToConstant:55.0f].active = YES;
         _startButton.layer.cornerRadius = 30.0f;
         _startButton.backgroundColor = [UIColor rsschoolYellowColor];
         _startButton.titleLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightMedium];
@@ -99,15 +99,15 @@
     return _startButton;
 }
 
-- (UIStackView *)mainPipe {
-    if(!_mainPipe) {
-        _mainPipe = [UIStackView new];
-        _mainPipe.translatesAutoresizingMaskIntoConstraints = NO;
-        _mainPipe.axis = UILayoutConstraintAxisVertical;
-        _mainPipe.distribution = UIStackViewDistributionEqualSpacing;
+- (UIStackView *)mainStack {
+    if(!_mainStack) {
+        _mainStack = [UIStackView new];
+        _mainStack.translatesAutoresizingMaskIntoConstraints = NO;
+        _mainStack.axis = UILayoutConstraintAxisVertical;
+        _mainStack.distribution = UIStackViewDistributionEqualSpacing;
         
     }
-    return _mainPipe;
+    return _mainStack;
 }
 
 #pragma mark - Utility
@@ -115,6 +115,10 @@
 - (void)buttonPressend:(UIButton *)sender {
     [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"mainScreenRequiredNotification"
                                                                                        object:nil]];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 @end

@@ -35,8 +35,7 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"RSSchool Task 6";
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
+    
     
     self.view.backgroundColor = [UIColor rsschoolWhiteColor];
     
@@ -92,6 +91,10 @@
 - (void)backToStart {
     [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"initialScreenRequiredNotification"
                                                                                        object:nil]];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 #pragma mark - Lazy getters

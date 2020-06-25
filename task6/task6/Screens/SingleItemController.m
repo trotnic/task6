@@ -50,8 +50,7 @@ static CGFloat const insetSize = 30.0f;
     self.assetResource = ((PHAssetResource *)[PHAssetResource assetResourcesForAsset:self.asset].firstObject);
     
     self.navigationItem.title = self.assetResource.originalFilename;
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back"]
                                                             imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                                                                              style:UIBarButtonItemStylePlain
@@ -153,6 +152,10 @@ static CGFloat const insetSize = 30.0f;
         vc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
         [self presentViewController:vc animated:YES completion:nil];
     });
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 #pragma mark - Lazy Getters

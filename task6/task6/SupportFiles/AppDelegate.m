@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "InitialViewController.h"
 #import "MainTabBarController.h"
+#import "UIColor+HEX.h"
 
 @interface AppDelegate ()
 
@@ -16,8 +17,11 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [UINavigationBar appearance].titleTextAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:18.0f weight:UIFontWeightSemibold]};
+    [UINavigationBar appearance].translucent = NO;
+    [UINavigationBar appearance].barTintColor = [UIColor rsschoolYellowColor];
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupInitialScreen) name:@"initialScreenRequiredNotification" object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupMainScreen) name:@"mainScreenRequiredNotification" object:nil];

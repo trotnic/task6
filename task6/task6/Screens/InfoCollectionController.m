@@ -29,10 +29,8 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.title = nil;
     self.collectionView.backgroundColor = [UIColor rsschoolWhiteColor];
-    
+
     self.navigationItem.title = @"Info";
-    self.navigationController.navigationBar.translucent = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
     
     [self.collectionView registerClass:[InfoCell class] forCellWithReuseIdentifier:reuseIdentifier];
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
@@ -56,6 +54,10 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 #pragma mark <UICollectionViewDataSource>

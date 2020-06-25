@@ -20,6 +20,7 @@
 		2B5D94B9249E977F00295B6B /* InfoCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94B8249E977F00295B6B /* InfoCollectionController.m */; };
 		2B5D94C1249EA70400295B6B /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94C0249EA70400295B6B /* InfoCell.m */; };
 		2B5D94C5249F3CD100295B6B /* UIColor+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5D94C4249F3CD100295B6B /* UIColor+HEX.m */; };
+		2B5EF23E24A517260078D7D8 /* PlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5EF23D24A517260078D7D8 /* PlayerController.m */; };
 		2B74806B249C029C00E9CBBB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B74806A249C029C00E9CBBB /* AppDelegate.m */; };
 		2B74806E249C029C00E9CBBB /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B74806D249C029C00E9CBBB /* SceneDelegate.m */; };
 		2B748076249C029E00E9CBBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B748075249C029E00E9CBBB /* Assets.xcassets */; };
@@ -59,6 +60,8 @@
 		2B5D94C0249EA70400295B6B /* InfoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InfoCell.m; sourceTree = "<group>"; };
 		2B5D94C3249F3CD100295B6B /* UIColor+HEX.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+HEX.h"; sourceTree = "<group>"; };
 		2B5D94C4249F3CD100295B6B /* UIColor+HEX.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HEX.m"; sourceTree = "<group>"; };
+		2B5EF23C24A517260078D7D8 /* PlayerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerController.h; sourceTree = "<group>"; };
+		2B5EF23D24A517260078D7D8 /* PlayerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayerController.m; sourceTree = "<group>"; };
 		2B748066249C029C00E9CBBB /* task6.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = task6.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B748069249C029C00E9CBBB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2B74806A249C029C00E9CBBB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -128,6 +131,7 @@
 		2B5D94A7249E2E3C00295B6B /* Utility Views */ = {
 			isa = PBXGroup;
 			children = (
+				2B748083249C155A00E9CBBB /* Geometry Views */,
 				2B5D94A8249E2E4F00295B6B /* ProfileStackView.h */,
 				2B5D94A9249E2E4F00295B6B /* ProfileStackView.m */,
 				2B5D94AE249E6AEC00295B6B /* GalleryCell.h */,
@@ -175,12 +179,9 @@
 				2B5D94C2249F3CAC00295B6B /* Category */,
 				2B5D94A7249E2E3C00295B6B /* Utility Views */,
 				2B3A09CC249D38BD008924CA /* Screens */,
-				2B748083249C155A00E9CBBB /* Geometry Views */,
 				2B748082249C073000E9CBBB /* SupportFiles */,
 				2B748075249C029E00E9CBBB /* Assets.xcassets */,
-				2B748077249C029E00E9CBBB /* LaunchScreen.storyboard */,
 				2B74807A249C029E00E9CBBB /* Info.plist */,
-				2B74807B249C029E00E9CBBB /* main.m */,
 			);
 			path = task6;
 			sourceTree = "<group>";
@@ -192,6 +193,10 @@
 				2B74806A249C029C00E9CBBB /* AppDelegate.m */,
 				2B74806C249C029C00E9CBBB /* SceneDelegate.h */,
 				2B74806D249C029C00E9CBBB /* SceneDelegate.m */,
+				2B748077249C029E00E9CBBB /* LaunchScreen.storyboard */,
+				2B74807B249C029E00E9CBBB /* main.m */,
+				2B5EF23C24A517260078D7D8 /* PlayerController.h */,
+				2B5EF23D24A517260078D7D8 /* PlayerController.m */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -279,6 +284,7 @@
 				2B5D94AD249E659C00295B6B /* GalleryCollectionController.m in Sources */,
 				2B3A09D2249D5C1C008924CA /* MainTabBarController.m in Sources */,
 				2B748086249C158200E9CBBB /* SquareView.m in Sources */,
+				2B5EF23E24A517260078D7D8 /* PlayerController.m in Sources */,
 				2B3A09CF249D38D0008924CA /* InitialViewController.m in Sources */,
 				2B5D94B3249E74C800295B6B /* ModalImageController.m in Sources */,
 				2B80B30B24A4E31B00DBD20C /* NSDate+StringFormat.m in Sources */,

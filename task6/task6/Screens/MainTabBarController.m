@@ -35,7 +35,9 @@
         UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         _galleryController = [[UINavigationController alloc] initWithRootViewController:[[GalleryCollectionController alloc] initWithCollectionViewLayout:layout]];
-        _galleryController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"" image:[[UIImage imageNamed:@"gallery_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:@"gallery_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+        _galleryController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@""
+                                                                      image:[[UIImage imageNamed:@"gallery_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                              selectedImage:[[UIImage imageNamed:@"gallery_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     }
     return _galleryController;
 }
@@ -43,7 +45,9 @@
 - (UINavigationController *)homeController {
     if(!_homeController) {
         _homeController = [[UINavigationController alloc] initWithRootViewController: [HomeController new]];
-        _homeController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"" image:[[UIImage imageNamed:@"home_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:@"home_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+        _homeController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@""
+                                                                   image:[[UIImage imageNamed:@"home_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                           selectedImage:[[UIImage imageNamed:@"home_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     }
     return _homeController;
 }
@@ -53,7 +57,9 @@
         UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         _infoController = [[UINavigationController alloc] initWithRootViewController:[[InfoCollectionController alloc] initWithCollectionViewLayout:layout]];
-        _infoController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"" image:[[UIImage imageNamed:@"info_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[UIImage imageNamed:@"info_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+        _infoController.tabBarItem = [[UITabBarItem alloc] initWithTitle:@""
+                                                                   image:[[UIImage imageNamed:@"info_unselected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                           selectedImage:[[UIImage imageNamed:@"info_selected"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     }
     return _infoController;
 }
