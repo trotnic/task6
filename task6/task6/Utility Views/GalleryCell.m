@@ -33,7 +33,7 @@
 - (void)loadAsset:(PHAsset *)asset {
     [self.imageView fetchImageWithAsset:asset
                             contentMode:PHImageContentModeAspectFill
-                             targetSize:self.bounds.size
+                             targetSize:PHImageManagerMaximumSize
                            deliveryMode:PHImageRequestOptionsDeliveryModeOpportunistic
                       completionHandler:nil];
 }

@@ -101,7 +101,7 @@
     return YES;
 }
 
-#pragma mark - Lazy Getters
+#pragma mark - Getters
 
 - (UIImageView *)imageView {
     if(!_imageView) {

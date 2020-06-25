@@ -10,6 +10,7 @@
 #import "InitialViewController.h"
 #import "MainTabBarController.h"
 #import "UIColor+HEX.h"
+#import "Constants.h"
 
 @interface AppDelegate ()
 
@@ -23,12 +24,15 @@
     [UINavigationBar appearance].translucent = NO;
     [UINavigationBar appearance].barTintColor = [UIColor rsschoolYellowColor];
     
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupInitialScreen) name:@"initialScreenRequiredNotification" object:nil];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupMainScreen) name:@"mainScreenRequiredNotification" object:nil];
+    if (@available(iOS 13.0, *)) {
+    } else {
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupInitialScreen) name:InitialScreenRequiredNotification object:nil];
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupMainScreen) name:MainScreenRequiredNotification object:nil];
     
-    self.window = [UIWindow new];
-    self.window.rootViewController = [InitialViewController new];
-    [self.window makeKeyAndVisible];
+        self.window = [UIWindow new];
+        self.window.rootViewController = [InitialViewController new];
+        [self.window makeKeyAndVisible];
+    }
     
     return YES;
 }

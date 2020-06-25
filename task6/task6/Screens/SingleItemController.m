@@ -95,6 +95,20 @@ static CGFloat const insetSize = 30.0f;
                            deliveryMode:PHImageRequestOptionsDeliveryModeOpportunistic
                       completionHandler:
      ^{
+        if(self.imageView.image == nil) {
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!"
+                                                                        message:@"Can't load media"
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"Back"
+                                                   style:UIAlertActionStyleCancel
+                                                 handler:^(UIAlertAction *action) {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self presentViewController:vc animated:YES completion:nil];
+            });
+            return;
+        }
         CGFloat ratio = self.imageView.image.size.height / self.imageView.image.size.width;
         [self.imageView.heightAnchor constraintEqualToAnchor:self.imageView.widthAnchor multiplier:ratio].active = YES;
     }];
@@ -133,9 +147,9 @@ static CGFloat const insetSize = 30.0f;
         }
         default: {
             UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!"
-                                                                        message:@"Can't share this :("
+                                                                        message:@"Can't share this media"
                                                                  preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"ok"
+            [vc addAction:[UIAlertAction actionWithTitle:@"Back"
                                                    style:UIAlertActionStyleCancel
                                                  handler:nil]];
             [self presentViewController:vc animated:YES completion:nil];
@@ -158,7 +172,7 @@ static CGFloat const insetSize = 30.0f;
     return YES;
 }
 
-#pragma mark - Lazy Getters
+#pragma mark - Getters
 
 - (UIImageView *)imageView {
     if(!_imageView) {

@@ -9,6 +9,7 @@
 #import "InitialViewController.h"
 #import "FiguresStackView.h"
 #import "UIColor+HEX.h"
+#import "Constants.h"
 
 @interface InitialViewController ()
 
@@ -90,8 +91,8 @@
         _startButton.backgroundColor = [UIColor rsschoolYellowColor];
         _startButton.titleLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightMedium];
         [_startButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+        [_startButton setTitleColor:[UIColor rsschoolGrayColor] forState:UIControlStateHighlighted];
         [_startButton setTitle:@"START" forState:UIControlStateNormal];
-        [_startButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
         [_startButton addTarget:self
                          action:@selector(buttonPressend:)
                forControlEvents:UIControlEventTouchUpInside];
@@ -113,7 +114,7 @@
 #pragma mark - Utility
 
 - (void)buttonPressend:(UIButton *)sender {
-    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"mainScreenRequiredNotification"
+    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:MainScreenRequiredNotification
                                                                                        object:nil]];
 }
 
@@ -122,3 +123,5 @@
 }
 
 @end
+
+

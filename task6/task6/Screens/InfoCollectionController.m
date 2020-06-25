@@ -51,13 +51,28 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
+- (void)dealloc {
+    [PHPhotoLibrary.sharedPhotoLibrary unregisterChangeObserver:self];
+}
+
+#pragma mark - Utility
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
-- (BOOL)prefersStatusBarHidden {
-    return YES;
+- (void)fetchData {
+    PHFetchOptions *options = [PHFetchOptions new];
+    options.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES]];
+    self.fetchResult = [PHAsset fetchAssetsWithOptions:options];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView reloadData];
+    });
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -71,9 +86,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    InfoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    
-    
+    InfoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];    
     [cell configureWithAsset:self.fetchResult[indexPath.item]];
     return cell;
 }
@@ -108,15 +121,6 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(10, 0, 10, 0);
-}
-
-- (void)fetchData {
-    PHFetchOptions *options = [PHFetchOptions new];
-    options.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES]];
-    self.fetchResult = [PHAsset fetchAssetsWithOptions:options];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView reloadData];
-    });
 }
 
 #pragma mark - <PHPhotoLibraryChangeObserver>

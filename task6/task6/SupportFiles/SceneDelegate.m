@@ -9,6 +9,7 @@
 #import "SceneDelegate.h"
 #import "InitialViewController.h"
 #import "MainTabBarController.h"
+#import "Constants.h"
 
 @interface SceneDelegate ()
 
@@ -18,8 +19,8 @@
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions  API_AVAILABLE(ios(13.0)){
     
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupInitialScreen) name:@"initialScreenRequiredNotification" object:nil];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupMainScreen) name:@"mainScreenRequiredNotification" object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupInitialScreen) name:InitialScreenRequiredNotification object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupMainScreen) name:MainScreenRequiredNotification object:nil];
     self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
     self.window.rootViewController = [InitialViewController new];
     [self.window makeKeyAndVisible];

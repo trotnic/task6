@@ -28,7 +28,7 @@
     self.selectedIndex = 1;
 }
 
-#pragma mark - Lazy getters
+#pragma mark - Getters
 
 - (UINavigationController *)galleryController {
     if(!_galleryController) {

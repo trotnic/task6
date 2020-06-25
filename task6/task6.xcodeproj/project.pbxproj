@@ -81,6 +81,7 @@
 		2B80B30724A4E28F00DBD20C /* PHAsset+StringType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PHAsset+StringType.m"; sourceTree = "<group>"; };
 		2B80B30924A4E31B00DBD20C /* NSDate+StringFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+StringFormat.h"; sourceTree = "<group>"; };
 		2B80B30A24A4E31B00DBD20C /* NSDate+StringFormat.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+StringFormat.m"; sourceTree = "<group>"; };
+		2B98B02024A559790012D062 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +198,7 @@
 				2B74807B249C029E00E9CBBB /* main.m */,
 				2B5EF23C24A517260078D7D8 /* PlayerController.h */,
 				2B5EF23D24A517260078D7D8 /* PlayerController.m */,
+				2B98B02024A559790012D062 /* Constants.h */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";

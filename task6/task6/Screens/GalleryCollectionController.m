@@ -52,14 +52,15 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.collectionView.collectionViewLayout invalidateLayout];
-    
-    
-    self.navigationController.navigationBar.layoutMargins = UIEdgeInsetsMake(10, 20, 20, 20);
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
+- (void)dealloc {
+    [PHPhotoLibrary.sharedPhotoLibrary unregisterChangeObserver:self];
 }
 
 #pragma mark <UICollectionViewDataSource>

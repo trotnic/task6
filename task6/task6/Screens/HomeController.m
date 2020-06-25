@@ -10,6 +10,7 @@
 #import "ProfileStackView.h"
 #import "FiguresStackView.h"
 #import "UIColor+HEX.h"
+#import "Constants.h"
 
 
 @interface HomeController ()
@@ -83,13 +84,13 @@
 #pragma mark - Utility
 
 - (void)openCV {
-    [UIApplication.sharedApplication openURL:[NSURL URLWithString: @"https://trotnic.github.io/rsschool-cv/cv"]
+    [UIApplication.sharedApplication openURL:[NSURL URLWithString:CVURLString]
                                      options:@{}
                            completionHandler:nil];
 }
 
 - (void)backToStart {
-    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"initialScreenRequiredNotification"
+    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:InitialScreenRequiredNotification
                                                                                        object:nil]];
 }
 
@@ -97,7 +98,7 @@
     return YES;
 }
 
-#pragma mark - Lazy getters
+#pragma mark - Getters
 
 - (UIView *)dividerView1 {
     if(!_dividerView1) {
@@ -135,7 +136,7 @@
         _cvButton.titleLabel.font = [UIFont systemFontOfSize:20.0f weight:UIFontWeightBold];
         _cvButton.backgroundColor = [UIColor rsschoolYellowColor];
         [_cvButton setTitleColor:[UIColor rsschoolBlackColor] forState:UIControlStateNormal];
-        
+        [_cvButton setTitleColor:[UIColor rsschoolGrayColor] forState:UIControlStateHighlighted];
         [_cvButton addTarget:self action:@selector(openCV) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cvButton;
@@ -150,7 +151,7 @@
         _resumeButton.titleLabel.font = [UIFont systemFontOfSize:20.0f weight:UIFontWeightBold];
         _resumeButton.backgroundColor = [UIColor rsschoolRedColor];
         [_resumeButton setTitleColor:[UIColor rsschoolWhiteColor] forState:UIControlStateNormal];
-        
+        [_resumeButton setTitleColor:[UIColor rsschoolGrayColor] forState:UIControlStateHighlighted];
         [_resumeButton addTarget:self action:@selector(backToStart) forControlEvents:UIControlEventTouchUpInside];
     }
     return _resumeButton;
