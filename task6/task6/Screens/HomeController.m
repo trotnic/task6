@@ -25,8 +25,6 @@
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 
-@property (nonatomic, assign) CGFloat insetSize;
-
 @end
 
 @implementation HomeController
@@ -44,7 +42,6 @@
     
     [self.view addSubview:self.scrollView];
     [self.scrollView addSubview:self.verticalStack];
-    self.scrollView.contentSize = self.verticalStack.bounds.size;
     
     [self.verticalStack addArrangedSubview:self.profileStackView];
     [self.verticalStack addArrangedSubview:self.dividerView1];
@@ -59,17 +56,24 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [NSLayoutConstraint activateConstraints:@[
         [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
-        [self.scrollView.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],
+        [self.scrollView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
         [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
-        [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor],
+        [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
         
-        [self.verticalStack.leadingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.leadingAnchor constant:self.insetSize/2],
-        [self.verticalStack.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor constant:self.insetSize ],
-        [self.verticalStack.trailingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.trailingAnchor constant:-self.insetSize/2],
-        [self.verticalStack.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-self.insetSize],
+        [self.verticalStack.leadingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.leadingAnchor],
+        [self.verticalStack.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor constant:30.0f],
+        [self.verticalStack.trailingAnchor constraintEqualToAnchor:self.scrollView.layoutMarginsGuide.trailingAnchor],
+        [self.verticalStack.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-30.0f],
     ]];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    CGFloat insetSize = UIScreen.mainScreen.bounds.size.height / 15;
+    self.scrollView.layoutMargins = UIEdgeInsetsMake(8, insetSize, 8, insetSize);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -80,12 +84,14 @@
 #pragma mark - Utility
 
 - (void)openCV {
-    [UIApplication.sharedApplication openURL:[NSURL URLWithString: @"https://trotnic.github.io/rsschool-cv/cv"] options:@{} completionHandler:^(BOOL success) {
-    }];
+    [UIApplication.sharedApplication openURL:[NSURL URLWithString: @"https://trotnic.github.io/rsschool-cv/cv"]
+                                     options:@{}
+                           completionHandler:nil];
 }
 
 - (void)backToStart {
-    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"initialScreenRequiredNotification" object:nil]];
+    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"initialScreenRequiredNotification"
+                                                                                       object:nil]];
 }
 
 #pragma mark - Lazy getters
@@ -160,7 +166,6 @@
 - (ProfileStackView *)profileStackView {
     if(!_profileStackView) {
         _profileStackView = [ProfileStackView new];
-
     }
     return _profileStackView;
 }
@@ -181,13 +186,5 @@
     }
     return _scrollView;
 }
-
-- (CGFloat)insetSize {
-    if(!_insetSize) {
-        _insetSize = [[NSUserDefaults.standardUserDefaults valueForKey:@"sideInset"] floatValue];
-    }
-    return _insetSize;
-}
-
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "SceneDelegate.h"
-#import "InitialViewcontroller.h"
+#import "InitialViewController.h"
 #import "MainTabBarController.h"
 
 @interface SceneDelegate ()
@@ -21,14 +21,14 @@
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupInitialScreen) name:@"initialScreenRequiredNotification" object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupMainScreen) name:@"mainScreenRequiredNotification" object:nil];
     self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
-    self.window.rootViewController = [InitialViewcontroller new];
+    self.window.rootViewController = [InitialViewController new];
     [self.window makeKeyAndVisible];
 }
 
 - (void)setupInitialScreen {
     [UIView animateWithDuration:0.2f animations:^{
         [self.window.rootViewController dismissViewControllerAnimated:YES completion:^{
-            self.window.rootViewController = [InitialViewcontroller new];
+            self.window.rootViewController = [InitialViewController new];
         }];
     }];
 }

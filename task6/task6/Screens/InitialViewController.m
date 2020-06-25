@@ -6,40 +6,31 @@
 //  Copyright © 2020 Владислав. All rights reserved.
 //
 
-#import "InitialViewcontroller.h"
+#import "InitialViewController.h"
 #import "FiguresStackView.h"
 #import "UIColor+HEX.h"
 
-@interface InitialViewcontroller ()
+@interface InitialViewController ()
 
 @property (nonatomic, strong) FiguresStackView *pipeStack;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIButton *startButton;
 @property (nonatomic, strong) UIStackView *mainPipe;
 
-@property (nonatomic, assign) CGFloat insetSize;
-
 @end
 
-@implementation InitialViewcontroller
-
+@implementation InitialViewController
 
 #pragma mark Controller Lifecycle
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.backgroundColor = UIColor.whiteColor;
     
-    [self.view addSubview:self.titleLabel];
     self.titleLabel.text = @"Are you ready?";
-    [self.view addSubview:self.pipeStack];
     
-    [self.view addSubview:self.startButton];
-    [self.startButton setTitle:@"START" forState:UIControlStateNormal];
-    [self.startButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [self.startButton addTarget:self action:@selector(buttonPressend:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.pipeStack];
     [self.view addSubview:self.mainPipe];
     [self.mainPipe addArrangedSubview:self.titleLabel];
     [self.mainPipe addArrangedSubview:self.pipeStack];
@@ -48,34 +39,36 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [NSLayoutConstraint activateConstraints:@[
-        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor constant:UIScreen.mainScreen.bounds.size.width / 15],
-        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor constant:2*UIScreen.mainScreen.bounds.size.width / 15],
-        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor constant:-UIScreen.mainScreen.bounds.size.width / 15],
-        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor constant:-UIScreen.mainScreen.bounds.size.width / 5]
+        [self.mainPipe.leadingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.leadingAnchor],
+        [self.mainPipe.topAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.topAnchor],
+        [self.mainPipe.trailingAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.trailingAnchor],
+        [self.mainPipe.bottomAnchor constraintEqualToAnchor:self.view.layoutMarginsGuide.bottomAnchor]
     ]];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    CGFloat insetSize = UIScreen.mainScreen.bounds.size.height / 15;
+    self.view.layoutMargins = UIEdgeInsetsMake(1.5*insetSize, insetSize, 2.5*insetSize, insetSize);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [self.pipeStack runAnimation];
 }
 
-
 #pragma mark Getters
-
 
 - (FiguresStackView *)pipeStack {
     if(!_pipeStack) {
         _pipeStack = [FiguresStackView new];
-        [_pipeStack.heightAnchor constraintEqualToConstant:75].active = YES;
         _pipeStack.axis = UILayoutConstraintAxisHorizontal;
         _pipeStack.distribution = UIStackViewDistributionEqualSpacing;
     }
     return _pipeStack;
 }
-
 
 - (UILabel *)titleLabel {
     if(!_titleLabel) {
@@ -88,21 +81,23 @@
     return _titleLabel;
 }
 
-
 - (UIButton *)startButton {
     if(!_startButton) {
         _startButton = [UIButton new];
         _startButton.translatesAutoresizingMaskIntoConstraints = NO;
-        
         [_startButton.heightAnchor constraintEqualToConstant:55].active = YES;
-        _startButton.layer.cornerRadius = 30;
+        _startButton.layer.cornerRadius = 30.0f;
         _startButton.backgroundColor = [UIColor rsschoolYellowColor];
         _startButton.titleLabel.font = [UIFont systemFontOfSize:20 weight:UIFontWeightMedium];
-        
+        [_startButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+        [_startButton setTitle:@"START" forState:UIControlStateNormal];
+        [_startButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+        [_startButton addTarget:self
+                         action:@selector(buttonPressend:)
+               forControlEvents:UIControlEventTouchUpInside];
     }
     return _startButton;
 }
-
 
 - (UIStackView *)mainPipe {
     if(!_mainPipe) {
@@ -110,22 +105,16 @@
         _mainPipe.translatesAutoresizingMaskIntoConstraints = NO;
         _mainPipe.axis = UILayoutConstraintAxisVertical;
         _mainPipe.distribution = UIStackViewDistributionEqualSpacing;
+        
     }
     return _mainPipe;
 }
 
-
-- (CGFloat)insetSize {
-    if(!_insetSize) {
-        _insetSize = [[NSUserDefaults.standardUserDefaults valueForKey:@"sideInset"] floatValue];
-    }
-    return _insetSize;
-}
-
+#pragma mark - Utility
 
 - (void)buttonPressend:(UIButton *)sender {
-    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"mainScreenRequiredNotification" object:nil]];
+    [NSNotificationCenter.defaultCenter postNotification:[NSNotification notificationWithName:@"mainScreenRequiredNotification"
+                                                                                       object:nil]];
 }
-
 
 @end

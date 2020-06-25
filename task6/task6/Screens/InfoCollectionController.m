@@ -48,6 +48,16 @@ static NSString * const reuseIdentifier = @"Cell";
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -63,7 +73,6 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
     [cell configureWithAsset:self.fetchResult[indexPath.item]];
-    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -113,6 +122,5 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
     [self fetchData];
 }
-
 
 @end

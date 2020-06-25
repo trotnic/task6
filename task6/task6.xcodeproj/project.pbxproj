@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B3A09CF249D38D0008924CA /* InitialViewcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A09CE249D38D0008924CA /* InitialViewcontroller.m */; };
+		2B3A09CF249D38D0008924CA /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A09CE249D38D0008924CA /* InitialViewController.m */; };
 		2B3A09D2249D5C1C008924CA /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A09D1249D5C1C008924CA /* MainTabBarController.m */; };
 		2B3A09D8249D62B0008924CA /* HomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3A09D7249D62B0008924CA /* HomeController.m */; };
 		2B3C0C6C249F7CCF001FD7CB /* SingleItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C0C6B249F7CCF001FD7CB /* SingleItemController.m */; };
@@ -28,11 +28,13 @@
 		2B748086249C158200E9CBBB /* SquareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B748085249C158200E9CBBB /* SquareView.m */; };
 		2B748089249C177600E9CBBB /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B748088249C177600E9CBBB /* CircleView.m */; };
 		2B74808C249C17B200E9CBBB /* TriangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B74808B249C17B200E9CBBB /* TriangleView.m */; };
+		2B80B30824A4E28F00DBD20C /* PHAsset+StringType.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B80B30724A4E28F00DBD20C /* PHAsset+StringType.m */; };
+		2B80B30B24A4E31B00DBD20C /* NSDate+StringFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B80B30A24A4E31B00DBD20C /* NSDate+StringFormat.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2B3A09CD249D38D0008924CA /* InitialViewcontroller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InitialViewcontroller.h; sourceTree = "<group>"; };
-		2B3A09CE249D38D0008924CA /* InitialViewcontroller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InitialViewcontroller.m; sourceTree = "<group>"; };
+		2B3A09CD249D38D0008924CA /* InitialViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
+		2B3A09CE249D38D0008924CA /* InitialViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
 		2B3A09D0249D5C1C008924CA /* MainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
 		2B3A09D1249D5C1C008924CA /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		2B3A09D6249D62B0008924CA /* HomeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeController.h; sourceTree = "<group>"; };
@@ -72,6 +74,10 @@
 		2B748088249C177600E9CBBB /* CircleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 		2B74808A249C17B200E9CBBB /* TriangleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TriangleView.h; sourceTree = "<group>"; };
 		2B74808B249C17B200E9CBBB /* TriangleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TriangleView.m; sourceTree = "<group>"; };
+		2B80B30624A4E28E00DBD20C /* PHAsset+StringType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHAsset+StringType.h"; sourceTree = "<group>"; };
+		2B80B30724A4E28F00DBD20C /* PHAsset+StringType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PHAsset+StringType.m"; sourceTree = "<group>"; };
+		2B80B30924A4E31B00DBD20C /* NSDate+StringFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+StringFormat.h"; sourceTree = "<group>"; };
+		2B80B30A24A4E31B00DBD20C /* NSDate+StringFormat.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+StringFormat.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,8 +94,8 @@
 		2B3A09CC249D38BD008924CA /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				2B3A09CD249D38D0008924CA /* InitialViewcontroller.h */,
-				2B3A09CE249D38D0008924CA /* InitialViewcontroller.m */,
+				2B3A09CD249D38D0008924CA /* InitialViewController.h */,
+				2B3A09CE249D38D0008924CA /* InitialViewController.m */,
 				2B3A09D0249D5C1C008924CA /* MainTabBarController.h */,
 				2B3A09D1249D5C1C008924CA /* MainTabBarController.m */,
 				2B3A09D6249D62B0008924CA /* HomeController.h */,
@@ -139,6 +145,10 @@
 				2B5D94C4249F3CD100295B6B /* UIColor+HEX.m */,
 				2B3C0C70249F84F6001FD7CB /* UIImageView+AssetFetch.h */,
 				2B3C0C71249F84F6001FD7CB /* UIImageView+AssetFetch.m */,
+				2B80B30624A4E28E00DBD20C /* PHAsset+StringType.h */,
+				2B80B30724A4E28F00DBD20C /* PHAsset+StringType.m */,
+				2B80B30924A4E31B00DBD20C /* NSDate+StringFormat.h */,
+				2B80B30A24A4E31B00DBD20C /* NSDate+StringFormat.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -269,13 +279,15 @@
 				2B5D94AD249E659C00295B6B /* GalleryCollectionController.m in Sources */,
 				2B3A09D2249D5C1C008924CA /* MainTabBarController.m in Sources */,
 				2B748086249C158200E9CBBB /* SquareView.m in Sources */,
-				2B3A09CF249D38D0008924CA /* InitialViewcontroller.m in Sources */,
+				2B3A09CF249D38D0008924CA /* InitialViewController.m in Sources */,
 				2B5D94B3249E74C800295B6B /* ModalImageController.m in Sources */,
+				2B80B30B24A4E31B00DBD20C /* NSDate+StringFormat.m in Sources */,
 				2B5D94C1249EA70400295B6B /* InfoCell.m in Sources */,
 				2B748089249C177600E9CBBB /* CircleView.m in Sources */,
 				2B74806B249C029C00E9CBBB /* AppDelegate.m in Sources */,
 				2B5D94A6249E207E00295B6B /* FiguresStackView.m in Sources */,
 				2B5D94B0249E6AEC00295B6B /* GalleryCell.m in Sources */,
+				2B80B30824A4E28F00DBD20C /* PHAsset+StringType.m in Sources */,
 				2B5D94C5249F3CD100295B6B /* UIColor+HEX.m in Sources */,
 				2B74807C249C029E00E9CBBB /* main.m in Sources */,
 				2B3A09D8249D62B0008924CA /* HomeController.m in Sources */,
@@ -351,7 +363,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -403,7 +415,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -418,7 +430,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7YP67DVLV3;
 				INFOPLIST_FILE = task6/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -436,7 +448,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7YP67DVLV3;
 				INFOPLIST_FILE = task6/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

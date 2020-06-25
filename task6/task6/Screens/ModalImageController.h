@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ModalImageController : UIViewController <UIScrollViewDelegate>
 
+@property (nonatomic, copy) void(^ _Nullable completion)(void);
+
 - (instancetype)initWithAsset:(PHAsset *)asset;
 
 @end

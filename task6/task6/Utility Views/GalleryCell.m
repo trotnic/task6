@@ -28,6 +28,24 @@
     return self;
 }
 
+#pragma mark - Utility
+
+- (void)loadAsset:(PHAsset *)asset {
+    [self.imageView fetchImageWithAsset:asset
+                            contentMode:PHImageContentModeAspectFill
+                             targetSize:self.bounds.size
+                           deliveryMode:PHImageRequestOptionsDeliveryModeOpportunistic
+                      completionHandler:nil];
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    
+    self.imageView.image = nil;
+}
+
+#pragma mark - Getters
+
 - (UIImageView *)imageView {
     if(!_imageView) {
         _imageView = [UIImageView new];
@@ -49,14 +67,6 @@
     self.imageView.image = [UIImage imageNamed:@"apple"];
 }
 
-- (void)loadAsset:(PHAsset *)asset {
-    [self.imageView fetchImageWithAsset:asset contentMode:PHImageContentModeAspectFill targetSize:self.bounds.size];
-}
-
-- (void)prepareForReuse {
-    [super prepareForReuse];
-    
-    self.imageView.image = nil;
-}
-
 @end
+
+

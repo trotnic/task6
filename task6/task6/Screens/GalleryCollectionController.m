@@ -19,16 +19,13 @@
 @property (nonatomic, strong) PHFetchResult *fetchResult;
 @property(nonatomic , strong) PHImageManager *imageManager;
 
-
 @end
 
 @implementation GalleryCollectionController
 
 static NSString * const reuseIdentifier = @"Cell";
 
-
 #pragma mark - Controller Lifecycle
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,7 +41,6 @@ static NSString * const reuseIdentifier = @"Cell";
             case PHAuthorizationStatusAuthorized: {
                 [PHPhotoLibrary.sharedPhotoLibrary registerChangeObserver:self];
                 [self fetchData];
-                
                 break;
             }
             default:
@@ -53,19 +49,25 @@ static NSString * const reuseIdentifier = @"Cell";
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
 
 #pragma mark <UICollectionViewDataSource>
-
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.fetchResult.count;
 }
-
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GalleryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
@@ -73,74 +75,77 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
-
 #pragma mark <UICollectionViewDelegate>
-
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 4;
 }
 
-
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 4;
 }
-
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(5, 4, 4, 4);
 }
 
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake((self.collectionView.frame.size.width - 16) / 3, (self.collectionView.frame.size.width - 16) / 3);
+    CGFloat edgeSize = (self.collectionView.frame.size.width - 16) / 3;
+    return CGSizeMake(edgeSize, edgeSize);
 }
-
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (((PHAsset *) self.fetchResult[indexPath.item]).mediaType) {
         case PHAssetMediaTypeVideo: {
-            [PHCachingImageManager.defaultManager requestAVAssetForVideo:self.fetchResult[indexPath.item] options:0 resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+            [PHCachingImageManager.defaultManager requestAVAssetForVideo:self.fetchResult[indexPath.item]
+                                                                 options:0
+                                                           resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     AVURLAsset *urlAsset = (AVURLAsset *)asset;
                     AVPlayer *player = [AVPlayer playerWithURL: urlAsset.URL];
                     AVPlayerViewController *vc = [AVPlayerViewController new];
                     vc.player = player;
-                    [self presentViewController:vc animated:YES completion:^{
-                        
-                    }];
+                    [self presentViewController:vc animated:YES completion:nil];
                 });
             }];
             break;
         }
         case PHAssetMediaTypeImage: {
-            [self presentViewController:[[ModalImageController alloc] initWithAsset:self.fetchResult[indexPath.item]] animated:YES completion:^{}];
+            ModalImageController *vc = [[ModalImageController alloc] initWithAsset:self.fetchResult[indexPath.item]];
+            vc.completion = ^{
+                [self.collectionView.collectionViewLayout invalidateLayout];
+            };
+            [self presentViewController:vc animated:YES completion:nil];
             break;
         }
         default: {
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!" message:@"Can't show this :(" preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
-            [self presentViewController:vc animated:YES completion:^{}];
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!"
+                                                                        message:@"Can't show this :("
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"ok"
+                                                   style:UIAlertActionStyleCancel
+                                                 handler:nil]];
+            [self presentViewController:vc
+                               animated:YES
+                             completion:nil];
             break;
         }
     }
 }
 
+#pragma mark - Utility
 
 - (void)fetchData {
     PHFetchOptions *options = [PHFetchOptions new];
-    options.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES]];
-    
-    
+    options.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"creationDate"
+                                                            ascending:YES]];
     self.fetchResult = [PHAsset fetchAssetsWithOptions:options];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.collectionView reloadData];
     });
 }
 
-
 #pragma mark - <PHPhotoLibraryChangeObserver>
-
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance {
     [self fetchData];

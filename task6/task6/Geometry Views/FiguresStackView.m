@@ -76,6 +76,7 @@ static NSString *kTriangleAnimation = @"triangleRotation";
     [self addArrangedSubview:self.squareView];
     [self addArrangedSubview:self.triangleView];
     
+    
     self.axis = UILayoutConstraintAxisHorizontal;
     self.distribution = UIStackViewDistributionEqualSpacing;
 }
@@ -86,6 +87,7 @@ static NSString *kTriangleAnimation = @"triangleRotation";
     triangleAnimation.toValue = @(M_PI*2);
     triangleAnimation.duration = 5.0f;
     triangleAnimation.repeatCount = INFINITY;
+    triangleAnimation.removedOnCompletion = NO;
     [self.triangleView.layer addAnimation:triangleAnimation forKey:kTriangleAnimation];
     
     CABasicAnimation *circleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
@@ -94,6 +96,7 @@ static NSString *kTriangleAnimation = @"triangleRotation";
     circleAnimation.duration = 0.5f;
     circleAnimation.autoreverses = YES;
     circleAnimation.repeatCount = INFINITY;
+    circleAnimation.removedOnCompletion = NO;
     [self.circleView.layer addAnimation:circleAnimation forKey:kCircleAnimation];
     
     
@@ -103,6 +106,7 @@ static NSString *kTriangleAnimation = @"triangleRotation";
     squareAnimation.duration = 1.0f;
     squareAnimation.autoreverses = YES;
     squareAnimation.repeatCount = INFINITY;
+    squareAnimation.removedOnCompletion = NO;
     [self.squareView.layer addAnimation:squareAnimation forKey:kSquareAnimation];
 }
 

@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface InitialViewcontroller : UIViewController
+@interface InitialViewController : UIViewController
 
 @end
 

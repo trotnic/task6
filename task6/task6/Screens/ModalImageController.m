@@ -33,7 +33,7 @@
     return self;
 }
 
-- (void)closeUp:(UIPanGestureRecognizer *)sender {
+- (void)closingHandler:(UIPanGestureRecognizer *)sender {
     CGPoint touchPoint = [sender locationInView:self.view];
     CGPoint initialPoint = CGPointZero;
     
@@ -42,14 +42,12 @@
     } else if (sender.state == UIGestureRecognizerStateChanged) {
         if(touchPoint.y - initialPoint.y > 0) {
             [UIView animateWithDuration:0.3f animations:^{
-            self.view.frame = CGRectMake(0, touchPoint.y - initialPoint.y, self.view.frame.size.width, self.view.frame.size.height);
+                self.view.frame = CGRectMake(0, touchPoint.y - initialPoint.y, self.view.frame.size.width, self.view.frame.size.height);
             }];
         }
     } else if (sender.state == UIGestureRecognizerStateEnded || sender.state == UIGestureRecognizerStateCancelled) {
         if(touchPoint.y - initialPoint.y > 50) {
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-            }];
+            [self dismissViewControllerAnimated:YES completion:nil];
         } else {
             [UIView animateWithDuration:0.3f animations:^{
                 self.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -62,7 +60,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(closeUp:)];
+    self.recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(closingHandler:)];
     [self.view addGestureRecognizer:self.recognizer];
     
     self.view.backgroundColor = [UIColor rsschoolWhiteColor];
@@ -89,6 +87,14 @@
         [self.imageView.centerYAnchor constraintEqualToAnchor:self.scrollView.centerYAnchor],
         [self.imageView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor]
     ]];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if(self.completion) {
+        self.completion();
+    }
 }
 
 #pragma mark - Lazy Getters
@@ -98,7 +104,11 @@
         _imageView = [UIImageView new];
         _imageView.translatesAutoresizingMaskIntoConstraints = NO;
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
-        [_imageView fetchImageWithAsset:self.asset contentMode:PHImageContentModeAspectFit targetSize:CGSizeZero];
+        [_imageView fetchImageWithAsset:self.asset
+                            contentMode:PHImageContentModeAspectFit
+                             targetSize:PHImageManagerMaximumSize
+                           deliveryMode:PHImageRequestOptionsDeliveryModeOpportunistic
+                      completionHandler:nil];
     }
     return _imageView;
 }

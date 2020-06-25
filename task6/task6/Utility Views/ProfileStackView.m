@@ -30,6 +30,21 @@
     return self;
 }
 
+#pragma mark - Utility
+
+- (void)setupView {
+    self.axis = UILayoutConstraintAxisHorizontal;
+    self.spacing = self.profileImageView.image.size.width / 6;
+    
+    self.alignment = UIStackViewAlignmentCenter;
+    [self addArrangedSubview:self.profileImageView];
+    [self addArrangedSubview:self.textStack];
+    
+    [self.textStack addArrangedSubview:self.deviceLabel];
+    [self.textStack addArrangedSubview:self.typeLabel];
+    [self.textStack addArrangedSubview:self.osLabel];
+}
+
 #pragma mark Getters
 
 - (UIStackView *)textStack {
@@ -81,15 +96,5 @@
     return _osLabel;
 }
 
-- (void)setupView {
-    self.axis = UILayoutConstraintAxisHorizontal;
-    self.spacing = self.profileImageView.image.size.width / 6;
-    [self addArrangedSubview:self.profileImageView];
-    [self addArrangedSubview:self.textStack];
-    
-    [self.textStack addArrangedSubview:self.deviceLabel];
-    [self.textStack addArrangedSubview:self.typeLabel];
-    [self.textStack addArrangedSubview:self.osLabel];
-}
-
 @end
+

@@ -10,34 +10,29 @@
 #import "UIColor+HEX.h"
 #import <Photos/Photos.h>
 #import "UIImageView+AssetFetch.h"
+#import "PHAsset+StringType.h"
+#import "NSDate+StringFormat.h"
 
 
 @interface SingleItemController ()
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) UILabel *creationLabel;
 @property (nonatomic, strong) UILabel *modificationLabel;
 @property (nonatomic, strong) UILabel *typeLabel;
 @property (nonatomic, strong) UIStackView *textStack;
 @property (nonatomic, strong) UIButton *activityButton;
-@property (nonatomic, strong) PHAsset *asset;
 @property (nonatomic, strong) UIStackView *stackView;
 
 @property (nonatomic, strong) PHAssetResource *assetResource;
-
-@property (nonatomic, assign) CGFloat insetSize;
-
-@property (nonatomic, strong) NSLayoutConstraint *topImage;
-@property (nonatomic, strong) NSLayoutConstraint *trailingImage;
-@property (nonatomic, strong) NSLayoutConstraint *bottomImage;
-@property (nonatomic, strong) NSLayoutConstraint *leadingImage;
+@property (nonatomic, strong) PHAsset *asset;
 
 @end
 
 @implementation SingleItemController
 
+static CGFloat const insetSize = 30.0f;
 
 - (instancetype)initWithAsset:(PHAsset *)asset
 {
@@ -48,115 +43,69 @@
     return self;
 }
 
-
 #pragma mark Lifecycle
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.assetResource = ((PHAssetResource *)[PHAssetResource assetResourcesForAsset:self.asset].firstObject);
     
     self.navigationItem.title = self.assetResource.originalFilename;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor rsschoolYellowColor];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back"]
+                                                            imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(backAction)];
     
     self.view.backgroundColor = [UIColor rsschoolWhiteColor];
+    
     [self.view addSubview:self.scrollView];
-    
-    [self.scrollView addSubview:self.contentView];
-    [self.contentView addSubview:self.imageView];
-    [self.contentView addSubview:self.textStack];
-    [self.contentView addSubview:self.activityButton];
-    
-    
-    
+    [self.scrollView addSubview:self.stackView];
     [self.textStack addArrangedSubview:self.creationLabel];
     [self.textStack addArrangedSubview:self.modificationLabel];
     [self.textStack addArrangedSubview:self.typeLabel];
-    
-    self.scrollView.contentSize = self.stackView.frame.size;
-    self.scrollView.delegate = self;
-    
-    [self.imageView fetchImageWithAsset:self.asset contentMode:PHImageContentModeAspectFit targetSize:UIScreen.mainScreen.bounds.size];
+    [self.scrollView addSubview:self.imageView];
+    [self.stackView addArrangedSubview:self.textStack];
+    [self.stackView addArrangedSubview:self.activityButton];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [NSLayoutConstraint activateConstraints:@[
         [self.scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
         [self.scrollView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
         [self.scrollView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
         [self.scrollView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
         
-        [self.contentView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor],
-        [self.contentView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor],
-        [self.contentView.trailingAnchor constraintEqualToAnchor:self.scrollView.trailingAnchor],
-        [self.contentView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor],
-        [self.contentView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor],
+        [self.imageView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor constant:insetSize / 3],
+        [self.imageView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor constant:insetSize / 3],
+        [self.imageView.trailingAnchor constraintEqualToAnchor:self.scrollView.trailingAnchor constant:-insetSize / 3],
+        [self.imageView.centerXAnchor constraintEqualToAnchor:self.scrollView.centerXAnchor],
         
-        [self.imageView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.insetSize / 2],
-        [self.imageView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-self.insetSize / 2],
-        [self.imageView.bottomAnchor constraintEqualToAnchor:self.textStack.topAnchor constant:-self.insetSize],
-        
-        [self.textStack.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.insetSize / 2],
-        [self.textStack.topAnchor constraintEqualToAnchor:self.imageView.bottomAnchor constant:self.insetSize],
-        [self.textStack.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor],
-        [self.textStack.bottomAnchor constraintEqualToAnchor:self.activityButton.topAnchor constant:-self.insetSize],
-        
-        [self.activityButton.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor constant:self.insetSize],
-        [self.activityButton.topAnchor constraintEqualToAnchor:self.textStack.bottomAnchor constant:self.insetSize],
-        [self.activityButton.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor constant:-self.insetSize],
-        [self.activityButton.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor constant:-self.insetSize]
+        [self.stackView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor constant:insetSize / 3],
+        [self.stackView.topAnchor constraintEqualToAnchor:self.imageView.bottomAnchor constant:insetSize],
+        [self.stackView.trailingAnchor constraintEqualToAnchor:self.scrollView.trailingAnchor constant:-insetSize / 3],
+        [self.stackView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor constant:-insetSize],
     ]];
-
-    if (@available(iOS 13.0, *)) {
-        [self.imageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor].active = YES;
-    }
-    else {
-        [self.contentView.centerYAnchor constraintEqualToAnchor:self.scrollView.centerYAnchor].active = YES;
-        [self.imageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor constant:self.insetSize/2].active = YES;
-    }
+    
+    [self.imageView fetchImageWithAsset:self.asset
+                            contentMode:PHImageContentModeAspectFit
+                             targetSize:PHImageManagerMaximumSize
+                           deliveryMode:PHImageRequestOptionsDeliveryModeOpportunistic
+                      completionHandler:
+     ^{
+        CGFloat ratio = self.imageView.image.size.height / self.imageView.image.size.width;
+        [self.imageView.heightAnchor constraintEqualToAnchor:self.imageView.widthAnchor multiplier:ratio].active = YES;
+    }];
 }
-
-#pragma mark - <UIScrollViewDelegate>
-
-
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    return self.contentView;
-}
-
 
 #pragma mark - Utility
-
 
 - (void)backAction {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-
-- (NSString *)formattedDate:(NSDate *)date {
-    NSDateFormatter *formatter = [NSDateFormatter new];
-    formatter.dateFormat = @"HH:mm:ss dd.MM.yyyy";
-    NSString *result = [formatter stringFromDate:date];
-    return result;
-}
-
-
-- (NSString *)assetType:(PHAsset *)asset {
-    switch (asset.mediaType) {
-        case PHAssetMediaTypeAudio:
-            return @"Audio";
-        case PHAssetMediaTypeImage:
-            return @"Image";
-        case PHAssetMediaTypeVideo:
-            return @"Video";
-        default:
-            return @"Other";
-    }
-}
-
 
 - (void)share {
     switch (self.asset.mediaType) {
@@ -167,22 +116,30 @@
             options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
             options.resizeMode = PHImageRequestOptionsResizeModeNone;
             
-            [PHImageManager.defaultManager requestImageDataForAsset:self.asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+            [PHImageManager.defaultManager requestImageDataForAsset:self.asset
+                                                            options:options
+                                                      resultHandler:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
                 [self presentActivityWith:imageData];
             }];
             break;
         }
         case PHAssetMediaTypeVideo: {
-            [PHCachingImageManager.defaultManager requestAVAssetForVideo:self.asset options:0 resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+            [PHCachingImageManager.defaultManager requestAVAssetForVideo:self.asset
+                                                                 options:0
+                                                           resultHandler:^(AVAsset *asset, AVAudioMix *audioMix, NSDictionary *info) {
                 AVURLAsset *urlAsset = (AVURLAsset *)asset;
                 [self presentActivityWith:urlAsset.URL];
             }];
             break;
         }
         default: {
-            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!" message:@"Can't share this :(" preferredStyle:UIAlertControllerStyleAlert];
-            [vc addAction:[UIAlertAction actionWithTitle:@"ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}]];
-            [self presentViewController:vc animated:YES completion:^{}];
+            UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"Error!"
+                                                                        message:@"Can't share this :("
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+            [vc addAction:[UIAlertAction actionWithTitle:@"ok"
+                                                   style:UIAlertActionStyleCancel
+                                                 handler:nil]];
+            [self presentViewController:vc animated:YES completion:nil];
         }
     }
 }
@@ -194,23 +151,20 @@
         vc.popoverPresentationController.sourceView = self.view;
         vc.popoverPresentationController.sourceRect = CGRectMake(UIScreen.mainScreen.bounds.size.width / 2, UIScreen.mainScreen.bounds.size.height / 2, 0, 0);
         vc.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-        [self presentViewController:vc animated:YES completion:^{}];
+        [self presentViewController:vc animated:YES completion:nil];
     });
 }
 
-
 #pragma mark - Lazy Getters
-
 
 - (UIImageView *)imageView {
     if(!_imageView) {
         _imageView = [UIImageView new];
-        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
         _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _imageView;
 }
-
 
 - (UIScrollView *)scrollView {
     if(!_scrollView) {
@@ -220,20 +174,9 @@
     return _scrollView;
 }
 
-
-- (UIView *)contentView {
-    if(!_contentView) {
-        _contentView = [UIView new];
-        _contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    return _contentView;
-}
-
-
 - (UIStackView *)textStack {
     if(!_textStack) {
         _textStack = [UIStackView new];
-        _textStack.translatesAutoresizingMaskIntoConstraints = NO;
         _textStack.axis = UILayoutConstraintAxisVertical;
         _textStack.distribution = UIStackViewDistributionFillEqually;
         [_textStack.heightAnchor constraintEqualToConstant:95.0f].active = YES;
@@ -241,12 +184,11 @@
     return _textStack;
 }
 
-
 - (UILabel *)creationLabel {
     if(!_creationLabel) {
         _creationLabel = [UILabel new];
         
-        NSString *internalString = [NSString stringWithFormat:@"Creation date: %@", [self formattedDate:self.asset.creationDate]];
+        NSString *internalString = [NSString stringWithFormat:@"Creation date: %@", [self.asset.creationDate withFormat:@"HH:mm:ss dd.MM.yyyy"]];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:internalString attributes:@{
             NSForegroundColorAttributeName: [UIColor rsschoolBlackColor],
             NSFontAttributeName: [UIFont systemFontOfSize:17.0f weight:UIFontWeightRegular]
@@ -262,12 +204,11 @@
     return _creationLabel;
 }
 
-
 - (UILabel *)modificationLabel {
     if(!_modificationLabel) {
         _modificationLabel = [UILabel new];
 
-        NSString *internalString = [NSString stringWithFormat:@"Modification date: %@", [self formattedDate:self.asset.modificationDate]];
+        NSString *internalString = [NSString stringWithFormat:@"Modification date: %@", [self.asset.modificationDate withFormat:@"HH:mm:ss dd.MM.yyyy"]];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:internalString attributes:@{
             NSForegroundColorAttributeName: [UIColor rsschoolBlackColor],
             NSFontAttributeName: [UIFont systemFontOfSize:17.0f weight:UIFontWeightRegular]
@@ -283,13 +224,11 @@
     return _modificationLabel;
 }
     
-
 - (UILabel *)typeLabel {
     if(!_typeLabel) {
         _typeLabel = [UILabel new];
-        _typeLabel.text = [self assetType:self.asset];
         
-        NSString *internalString = [NSString stringWithFormat:@"Type: %@", [self assetType:self.asset]];
+        NSString *internalString = [NSString stringWithFormat:@"Type: %@", [self.asset stringType]];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:internalString attributes:@{
             NSForegroundColorAttributeName: [UIColor rsschoolBlackColor],
             NSFontAttributeName: [UIFont systemFontOfSize:17.0f weight:UIFontWeightRegular]
@@ -304,7 +243,6 @@
     }
     return _typeLabel;
 }
-
 
 - (UIButton *)activityButton {
     if(!_activityButton) {
@@ -321,15 +259,6 @@
     return _activityButton;
 }
 
-
-- (CGFloat)insetSize {
-    if(!_insetSize) {
-        _insetSize = [[NSUserDefaults.standardUserDefaults valueForKey:@"sideInset"] floatValue];
-    }
-    return _insetSize;
-}
-
-
 - (UIStackView *)stackView {
     if(!_stackView) {
         _stackView = [UIStackView new];
@@ -339,6 +268,5 @@
     }
     return _stackView;
 }
-
 
 @end

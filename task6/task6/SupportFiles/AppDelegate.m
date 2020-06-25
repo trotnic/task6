@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "InitialViewcontroller.h"
+#import "InitialViewController.h"
 #import "MainTabBarController.h"
 
 @interface AppDelegate ()
@@ -18,31 +18,22 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [self setupUserDefaults];
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupInitialScreen) name:@"initialScreenRequiredNotification" object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(setupMainScreen) name:@"mainScreenRequiredNotification" object:nil];
     
     self.window = [UIWindow new];
-    self.window.rootViewController = [InitialViewcontroller new];
+    self.window.rootViewController = [InitialViewController new];
     [self.window makeKeyAndVisible];
     
     return YES;
-}
-
-#pragma mark - UserDefaults setup
-
-- (void)setupUserDefaults {
-    [NSUserDefaults.standardUserDefaults setValuesForKeysWithDictionary:@{
-        @"sideInset": @(UIScreen.mainScreen.bounds.size.height / 15)
-    }];
 }
 
 #pragma mark - Root VC switching
 
 - (void)setupInitialScreen {
     [UIView animateWithDuration:0.2f animations:^{
-        self.window.rootViewController = [InitialViewcontroller new];
+        self.window.rootViewController = [InitialViewController new];
     }];
 }
 

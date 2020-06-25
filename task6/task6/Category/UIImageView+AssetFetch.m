@@ -10,12 +10,22 @@
 
 @implementation UIImageView (AssetFetch)
 
-- (void)fetchImageWithAsset:(PHAsset *)asset contentMode:(PHImageContentMode)contentMode targetSize:(CGSize)targetSize {
+- (void)fetchImageWithAsset:(PHAsset *)asset contentMode:(PHImageContentMode)contentMode targetSize:(CGSize)targetSize deliveryMode:(PHImageRequestOptionsDeliveryMode)mode completionHandler:(void (^ _Nullable )(void))completion {
     PHImageRequestOptions *options = [PHImageRequestOptions new];
     options.version = PHImageRequestOptionsVersionOriginal;
-    [PHImageManager.defaultManager requestImageForAsset:asset targetSize:targetSize contentMode:contentMode options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+    options.deliveryMode = mode;
+    [PHImageManager.defaultManager requestImageForAsset:asset
+                                             targetSize:targetSize
+                                            contentMode:contentMode
+                                                options:options
+                                          resultHandler:^(UIImage *result, NSDictionary *info) {
         self.image = result;
+        if(completion) {
+            completion();
+        }
     }];
+    
+    
 }
 
 @end

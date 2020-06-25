@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImageView (AssetFetch)
 
-- (void)fetchImageWithAsset:(PHAsset *)asset contentMode:(PHImageContentMode)contentMode targetSize:(CGSize)targetSize;
+- (void)fetchImageWithAsset:(PHAsset *)asset contentMode:(PHImageContentMode)contentMode targetSize:(CGSize)targetSize deliveryMode:(PHImageRequestOptionsDeliveryMode)mode completionHandler:(void (^ _Nullable )(void))completion;
 
 @end
 
